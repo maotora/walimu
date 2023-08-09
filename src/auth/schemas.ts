@@ -7,13 +7,28 @@ export const email = z
 
 export const password = z
   .string()
-  .min(10)
+  .min(8)
   .max(100)
+  .transform((str) => str.trim())
+
+export const phone = z
+  .string()
+  .min(10)
+  .max(16)
+  .transform((str) => str.trim())
+  .transform((str) => str.replace(/\s/g, ""))
+
+export const name = z
+  .string()
+  .min(5)
+  .max(32)
   .transform((str) => str.trim())
 
 export const Signup = z.object({
   email,
   password,
+  phone,
+  name,
 })
 
 export const Login = z.object({
