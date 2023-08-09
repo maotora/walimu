@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgres"
   url      = env("DATABASE_URL")
 }
 
@@ -13,14 +13,21 @@ generator client {
 // --------------------------------------
 
 model User {
-  id             Int      @id @default(autoincrement())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  name           String?
-  email          String   @unique
-  hashedPassword String?
-  role           String   @default("USER")
-  phone          String   @unique
+  id              Int              @id @default(autoincrement())
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  name            String?
+  email           String           @unique
+  hashedPassword  String?
+  role            UserRole         @default(USER)
+  phone           String           @unique
+  watching        Watcher[]
+  viewed          Viewer[]
+  locations       UserLocation[]
+  currentSchoolId Int
+  currentSchool   School           @relation(fields: [currentSchoolId], references: [id], onDelete: Cascade)
+  subscription    SubscriptionType @default(FREE)
+  posts           Post[]
 
   tokens   Token[]
   sessions Session[]
@@ -41,16 +48,16 @@ model Session {
 
   user   User? @relation(fields: [userId], references: [id])
   userId Int?
+
+  @@map("sessions")
 }
 
 model Token {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   hashedToken String
-  type        String
-  // See note below about TokenType enum
-  // type        TokenType
+  type        TokenType
   expiresAt   DateTime
   sentTo      String
 
@@ -58,11 +65,170 @@ model Token {
   userId Int
 
   @@unique([hashedToken, type])
+  @@map("tokens")
 }
 
-// NOTE: It's highly recommended to use an enum for the token type
-//       but enums only work in Postgres.
-//       See: https://blitzjs.com/docs/database-overview#switch-to-postgre-sql
-// enum TokenType {
-//   RESET_PASSWORD
-// }
+model Location {
+  id            Int            @id @default(autoincrement())
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  regionName    String         @map("region_name")
+  regionCode    String         @map("region_code")
+  districtName  String         @map("district_name")
+  districtCode  String         @map("district_code")
+  wardName      String         @map("ward_name")
+  wardCode      String         @map("ward_code")
+  streetName    String         @map("street_name")
+  schools       School[]
+  userLocations UserLocation[]
+  postLocations PostLocation[]
+
+  @@map("locations")
+}
+
+model UserLocation {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  userId     Int      @map("user_id")
+  locationId Int      @map("location_id")
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, locationId], name: "userLocationUniqueness")
+  @@map("user_locations")
+}
+
+model PostLocation {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  locationId Int      @map("location_id")
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  postId     Int      @map("post_id")
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([postId, locationId], name: "postLocationUniqueness")
+  @@map("post_locations")
+}
+
+model Post {
+  id           Int               @id @default(autoincrement())
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  userId       Int               @map("user_id")
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  locations    PostLocation[]
+  postViewers  Viewer[]
+  postWatchers Watcher[]
+  subjects     TeachingSubject[]
+
+  @@map("posts")
+}
+
+model Viewer {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  count     Int      @default(1)
+  userId    Int      @map("user_id")
+  postId    Int      @map("post_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId], name: "viwerUniqueness")
+  @@map("viewers")
+}
+
+model Watcher {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    Int      @map("user_id")
+  postId    Int      @map("post_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId], name: "watcherUniquness")
+  @@map("watchers")
+}
+
+model Subject {
+  id        Int               @id @default(autoincrement())
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  name      String
+  level     EducationLevel
+  posts     TeachingSubject[]
+
+  @@unique([name, level], name: "subjectsUniqueness")
+  @@map("subjects")
+}
+
+model TeachingSubject {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  postId    Int      @map("post_id")
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  subjectId Int      @map("subject_id")
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@unique([subjectId, postId], name: "teachingSubjectsUniquess")
+  @@map("teaching_subjects")
+}
+
+model School {
+  id         Int                    @id @default(autoincrement())
+  createdAt  DateTime               @default(now())
+  updatedAt  DateTime               @updatedAt
+  userId     Int                    @map("user_id")
+  teachers   User[]
+  type       SchoolType             @default(NORMAL)
+  name       String
+  locationId Int                    @map("location_id")
+  location   Location               @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  levels     SchoolEducationLevel[]
+
+  @@map("schools")
+}
+
+model SchoolEducationLevel {
+  id        Int            @id @default(autoincrement())
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  schoolId  Int            @map("school_id")
+  school    School         @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  level     EducationLevel @default(PRIMARY)
+
+  @@unique([schoolId, level], name: "schoolsEducationLevelUniqueness")
+  @@map("schools_education_levels")
+}
+
+enum TokenType {
+  RESET_PASSWORD
+}
+
+enum SubscriptionType {
+  FREE
+  PAID_ONE
+  PAID_TWO
+  PAID_THREE
+}
+
+enum EducationLevel {
+  SECONDARY
+  PRIMARY
+  ADVANCE
+}
+
+enum SchoolType {
+  NORMAL
+  SPECIAL
+  TECH
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
