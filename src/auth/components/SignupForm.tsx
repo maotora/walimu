@@ -42,10 +42,14 @@ export const SignupForm = (props: SignupFormProps) => {
     validate,
   })
 
-  function handleSubmit(values: any) {
-    signupMutation(values)
-    if (props.onSuccess) {
-      props.onSuccess()
+  async function handleSubmit(values: any) {
+    try {
+      const user = await signupMutation(values)
+      if (props.onSuccess && user) {
+        props.onSuccess()
+      }
+    } catch (err) {
+      console.log(err)
     }
   }
 

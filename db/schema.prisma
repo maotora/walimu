@@ -21,8 +21,8 @@ model User {
   watching        Watcher[]
   viewed          Viewer[]
   locations       UserLocation[]
-  currentSchoolId Int
-  currentSchool   School           @relation(fields: [currentSchoolId], references: [id], onDelete: Cascade)
+  currentSchoolId Int?             @map("current_school_id")
+  currentSchool   School?          @relation(fields: [currentSchoolId], references: [id], onDelete: Cascade)
   subscription    SubscriptionType @default(FREE)
   posts           Post[]
 
@@ -119,6 +119,7 @@ model Post {
   postViewers  Viewer[]
   postWatchers Watcher[]
   subjects     TeachingSubject[]
+  type         SchoolType        @default(NORMAL)
 
   @@map("posts")
 }
@@ -187,6 +188,7 @@ model School {
   location   Location               @relation(fields: [locationId], references: [id], onDelete: Cascade)
   levels     SchoolEducationLevel[]
 
+  @@unique([locationId, name, type], name: "schoolUniqueness")
   @@map("schools")
 }
 
@@ -223,6 +225,7 @@ enum SchoolType {
   NORMAL
   SPECIAL
   TECH
+  CENTER
 }
 
 enum UserRole {

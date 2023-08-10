@@ -29,6 +29,7 @@ export const Signup = z.object({
   password,
   phone,
   name,
+  currentSchool: z.any().optional(),
 })
 
 export const Login = z.object({
