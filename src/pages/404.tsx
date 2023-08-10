@@ -1,12 +1,10 @@
-import Head from 'next/head'
-import {ErrorComponent} from "@blitzjs/next"
+import Head from "next/head"
+import Link from "next/link"
 
-// ------------------------------------------------------
-// This page is rendered if a route match is not found
-// ------------------------------------------------------
 export default function Page404() {
   const statusCode = 404
   const title = "This page could not be found"
+  const message = "Sorry, we couldn’t find the page you’re looking for."
   return (
     <>
       <Head>
@@ -14,7 +12,27 @@ export default function Page404() {
           {statusCode}: {title}
         </title>
       </Head>
-      <ErrorComponent statusCode={statusCode} title={title} />
+      <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+        <div className="text-center">
+          <p className="text-base font-semibold text-indigo-600">{statusCode}</p>
+          <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+            {title}
+          </h1>
+          <p className="mt-6 text-base leading-7 text-gray-600">{message}</p>
+          <div className="mt-10 flex items-center justify-center gap-x-6">
+            <Link href="/">
+              <p className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                Go back home
+              </p>
+            </Link>
+            <Link href="/contacts">
+              <p className="text-sm font-semibold text-gray-900">
+                Contact support <span aria-hidden="true">&rarr;</span>
+              </p>
+            </Link>
+          </div>
+        </div>
+      </main>
     </>
   )
 }
