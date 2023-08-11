@@ -1,6 +1,7 @@
 import signup from "src/auth/mutations/signup"
 import Link from "next/link"
 import { useMutation } from "@blitzjs/rpc"
+import { Gender } from "@prisma/client"
 import {
   Title,
   Flex,
@@ -12,6 +13,7 @@ import {
   Group,
   Container,
   PasswordInput,
+  Radio,
 } from "@mantine/core"
 import { useForm } from "@mantine/form"
 
@@ -25,6 +27,7 @@ const initialValues = {
   phone: "",
   password: "",
   termsOfService: false,
+  gender: Gender.MALE,
 }
 
 const validate = {
@@ -87,6 +90,18 @@ export const SignupForm = (props: SignupFormProps) => {
             placeholder="+255 600 100 000"
             {...form.getInputProps("phone")}
           />
+
+          <Radio.Group
+            name="gender"
+            label="Gender"
+            className="space-y-3"
+            defaultValue={Gender.MALE}
+          >
+            <Group>
+              <Radio value={Gender.MALE} label="Male" />
+              <Radio value={Gender.FEMALE} label="Female" />
+            </Group>
+          </Radio.Group>
 
           <Flex justify="space-between" align="flex-end" wrap="wrap">
             <Checkbox

@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { Gender } from "@prisma/client"
 
 export const email = z
   .string()
@@ -30,6 +31,7 @@ export const Signup = z.object({
   phone,
   name,
   currentSchool: z.any().optional(),
+  gender: z.enum([Gender.FEMALE, Gender.MALE]),
 })
 
 export const Login = z.object({

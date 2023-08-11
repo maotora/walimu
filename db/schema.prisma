@@ -25,6 +25,7 @@ model User {
   currentSchool   School?          @relation(fields: [currentSchoolId], references: [id], onDelete: Cascade)
   subscription    SubscriptionType @default(FREE)
   posts           Post[]
+  gender          Gender           @default(MALE)
 
   tokens   Token[]
   sessions Session[]
@@ -146,6 +147,7 @@ model Watcher {
   postId    Int      @map("post_id")
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment   String
 
   @@unique([userId, postId], name: "watcherUniquness")
   @@map("watchers")
@@ -231,4 +233,9 @@ enum SchoolType {
 enum UserRole {
   USER
   ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }
