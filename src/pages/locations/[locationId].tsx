@@ -26,8 +26,6 @@ export const Location = () => {
         <h1>Location {location.id}</h1>
         <pre>{JSON.stringify(location, null, 2)}</pre>
 
-        <Link href={Routes.EditLocationPage({ locationId: location.id })}>Edit</Link>
-
         <button
           type="button"
           onClick={async () => {

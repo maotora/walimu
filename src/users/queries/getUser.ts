@@ -8,7 +8,24 @@ const GetUser = z.object({
 })
 
 export default resolver.pipe(resolver.zod(GetUser), resolver.authorize(), async ({ id }) => {
-  const user = await db.user.findFirst({ where: { id } })
+  const user = await db.user.findFirst({
+    where: { id },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      phone: true,
+      role: true,
+      gender: true,
+      currentSchool: {
+        select: {
+          name: true,
+          type: true,
+          location: true,
+        },
+      },
+    },
+  })
 
   if (!user) throw new NotFoundError()
 

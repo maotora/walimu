@@ -9,7 +9,7 @@ const SignupPage: BlitzPage = () => {
   return (
     <Layout title="Sign Up">
       <div className="my-24">
-        <SignupForm onSuccess={() => router.push(Routes.HomePage())} />
+        <SignupForm onSuccess={(id: number) => router.push(Routes.ShowUserPage({ userId: id }))} />
       </div>
     </Layout>
   )

@@ -18,7 +18,7 @@ import {
 import { useForm } from "@mantine/form"
 
 type SignupFormProps = {
-  onSuccess?: () => void
+  onSuccess?: (id: number) => void
 }
 
 const initialValues = {
@@ -49,7 +49,7 @@ export const SignupForm = (props: SignupFormProps) => {
     try {
       const user = await signupMutation(values)
       if (props.onSuccess && user) {
-        props.onSuccess()
+        props.onSuccess(user.id)
       }
     } catch (err) {
       console.log(err)
@@ -96,6 +96,7 @@ export const SignupForm = (props: SignupFormProps) => {
             label="Gender"
             className="space-y-3"
             defaultValue={Gender.MALE}
+            {...form.getInputProps("gender")}
           >
             <Group>
               <Radio value={Gender.MALE} label="Male" />

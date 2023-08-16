@@ -1,14 +1,14 @@
 import { z } from "zod"
+import { EducationLevel } from "@prisma/client"
 
 export const CreateSubjectSchema = z.object({
-  teachingSubject: z.string(),
-  school: z.string(),
-  schoolEducationLevel: z.string(),
-  // template: __fieldName__: z.__zodType__(),
+  level: z.nativeEnum(EducationLevel),
+  name: z.string(),
 })
 export const UpdateSubjectSchema = z.object({
   id: z.number(),
-  // template: __fieldName__: z.__zodType__(),
+  level: z.nativeEnum(EducationLevel).optional(),
+  name: z.string().optional(),
 })
 
 export const DeleteSubjectSchema = z.object({

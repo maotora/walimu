@@ -1,14 +1,13 @@
 import { z } from "zod"
+import { SchoolType } from "@prisma/client"
 
 export const CreatePostSchema = z.object({
-  viewer: z.string(),
-  watcher: z.string(),
-  subject: z.string(),
-  teachingSubject: z.string(),
-  school: z.string(),
-  schoolEducationLevel: z.string(),
-  // template: __fieldName__: z.__zodType__(),
+  subjectIds: z.number().array(),
+  type: z.nativeEnum(SchoolType),
+  userId: z.number().optional(),
+  locationIds: z.number().array(),
 })
+
 export const UpdatePostSchema = z.object({
   id: z.number(),
   // template: __fieldName__: z.__zodType__(),

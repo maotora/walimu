@@ -42,7 +42,6 @@ export const EditPost = () => {
             onSubmit={async (values) => {
               try {
                 const updated = await updatePostMutation({
-                  id: post.id,
                   ...values,
                 })
                 await setQueryData(updated)

@@ -11,7 +11,7 @@ import { assert } from "blitz"
 
 const ResetPasswordPage: BlitzPage = () => {
   const router = useRouter()
-  const token = router.query.token?.toString()
+  const token = router.query.token?.toString() || ""
   const [resetPasswordMutation, { isSuccess }] = useMutation(resetPassword)
 
   return (
@@ -22,7 +22,7 @@ const ResetPasswordPage: BlitzPage = () => {
         <div>
           <h2>Password Reset Successfully</h2>
           <p>
-            Go to the <Link href={Routes.Home()}>homepage</Link>
+            Go to the <Link href={Routes.HomePage()}>homepage</Link>
           </p>
         </div>
       ) : (

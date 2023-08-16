@@ -6,9 +6,21 @@ export default resolver.pipe(
   resolver.zod(CreateLocationSchema),
   resolver.authorize(),
   async (input) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const location = await db.location.create({ data: input })
+    const { regionName, districtName, wardName, streetName } = input
 
-    return location
+    const locationData = await db.location.upsert({
+      where: {
+        locationsUniqueness: {
+          regionName,
+          districtName,
+          wardName,
+          streetName,
+        },
+      },
+      create: input,
+      update: input,
+    })
+
+    return locationData
   }
 )

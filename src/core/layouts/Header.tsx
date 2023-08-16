@@ -8,6 +8,7 @@ import logout from "src/auth/mutations/logout"
 import { invoke } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
+import Image from "next/image"
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -27,7 +28,7 @@ export default function Header() {
         <Link href="/" legacyBehavior>
           <a className="-m-1.5 p-1.5">
             <span className="sr-only">Kuhama Walimu</span>
-            <img className="w-auto h-8" src="logo.png" alt="" />
+            <Image height={25} width={25} className="w-auto h-8" src="/logo.png" alt="" />
           </a>
         </Link>
         <div className="flex lg:hidden">
@@ -58,7 +59,7 @@ export default function Header() {
             <Link href="/" legacyBehavior>
               <a className="-m-1.5 p-1.5">
                 <span className="sr-only">Kuhama Walimu</span>
-                <img className="w-auto h-8" src="logo.png" alt="" />
+                <Image height={24} width={24} className="w-auto h-8" src="/logo.png" alt="" />
               </a>
             </Link>
             <button
@@ -100,8 +101,12 @@ function LoginOrDashboard(props: { isMobile?: boolean }) {
   const router = useRouter()
 
   async function handleLogout() {
-    await invoke(logout, {})
-    router.push(Routes.HomePage())
+    try {
+      await invoke(logout, {})
+      await router.push(Routes.HomePage())
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   if (session.userId) {

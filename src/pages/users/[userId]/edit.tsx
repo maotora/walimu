@@ -42,10 +42,9 @@ export const EditUser = () => {
             onSubmit={async (values) => {
               try {
                 const updated = await updateUserMutation({
-                  id: user.id,
                   ...values,
                 })
-                await setQueryData(updated)
+                // await setQueryData(updated)
                 await router.push(Routes.ShowUserPage({ userId: updated.id }))
               } catch (error: any) {
                 console.error(error)

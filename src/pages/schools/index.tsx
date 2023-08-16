@@ -5,15 +5,14 @@ import Link from "next/link"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
 import Layout from "src/core/layouts/Layout"
-import getLocations from "src/locations/queries/getLocations"
-import { createLocationName } from "utils"
+import getSchools from "src/schools/queries/getSchools"
 
 const ITEMS_PER_PAGE = 100
 
-export const LocationsList = () => {
+export const SchoolsList = () => {
   const router = useRouter()
   const page = Number(router.query.page) || 0
-  const [{ locations, hasMore }] = usePaginatedQuery(getLocations, {
+  const [{ schools, hasMore }] = usePaginatedQuery(getSchools, {
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
@@ -25,11 +24,9 @@ export const LocationsList = () => {
   return (
     <div>
       <ul>
-        {locations.map((location) => (
-          <li key={location.id}>
-            <Link href={Routes.ShowLocationPage({ locationId: location.id })}>
-              {createLocationName(location)}
-            </Link>
+        {schools.map((school) => (
+          <li key={school.id}>
+            <Link href={Routes.ShowSchoolPage({ schoolId: school.id })}>{school.name}</Link>
           </li>
         ))}
       </ul>
@@ -44,20 +41,24 @@ export const LocationsList = () => {
   )
 }
 
-const LocationsPage = () => {
+const SchoolsPage = () => {
   return (
     <Layout>
       <Head>
-        <title>Locations</title>
+        <title>Schools</title>
       </Head>
 
       <div>
+        <p>
+          <Link href={Routes.NewSchoolPage()}>Create School</Link>
+        </p>
+
         <Suspense fallback={<div>Loading...</div>}>
-          <LocationsList />
+          <SchoolsList />
         </Suspense>
       </div>
     </Layout>
   )
 }
 
-export default LocationsPage
+export default SchoolsPage

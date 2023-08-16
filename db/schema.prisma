@@ -4,7 +4,8 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 // --------------------------------------
@@ -13,7 +14,7 @@ model User {
   id              Int              @id @default(autoincrement())
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
-  name            String?
+  name            String
   email           String           @unique
   hashedPassword  String?
   role            UserRole         @default(USER)
@@ -71,16 +72,14 @@ model Location {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   regionName    String         @map("region_name")
-  regionCode    String         @map("region_code")
   districtName  String         @map("district_name")
-  districtCode  String         @map("district_code")
   wardName      String         @map("ward_name")
-  wardCode      String         @map("ward_code")
-  streetName    String         @map("street_name")
+  streetName    String?        @map("street_name")
   schools       School[]
   userLocations UserLocation[]
   postLocations PostLocation[]
 
+  @@unique([regionName, districtName, wardName, streetName], name: "locationsUniqueness")
   @@map("locations")
 }
 
@@ -182,7 +181,6 @@ model School {
   id         Int                    @id @default(autoincrement())
   createdAt  DateTime               @default(now())
   updatedAt  DateTime               @updatedAt
-  userId     Int                    @map("user_id")
   teachers   User[]
   type       SchoolType             @default(NORMAL)
   name       String

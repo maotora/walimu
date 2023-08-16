@@ -82,22 +82,22 @@ export default function PricingPage() {
       <div className="bg-white">
         <main>
           {/* Pricing section */}
-          <div className="mx-auto mt-16 max-w-7xl px-6 sm:mt-32 lg:px-8">
-            <div className="mx-auto max-w-4xl text-center">
-              <h1 className="text-base font-semibold leading-7 text-indigo-600">Pricing</h1>
+          <div className="px-6 mx-auto mt-16 max-w-7xl sm:mt-32 lg:px-8">
+            <div className="max-w-4xl mx-auto text-center">
+              <h1 className="text-base font-semibold text-indigo-600 leading-7">Pricing</h1>
               <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
                 Pricing plans for teams of&nbsp;all&nbsp;sizes
               </p>
             </div>
-            <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
+            <p className="max-w-2xl mx-auto mt-6 text-lg text-center text-gray-600 leading-8">
               Choose an affordable plan that’s packed with the best features for engaging your
               audience, creating customer loyalty, and driving sales.
             </p>
-            <div className="mt-16 flex justify-center">
+            <div className="flex justify-center mt-16">
               <RadioGroup
                 value={frequency}
                 onChange={setFrequency}
-                className="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200"
+                className="p-1 text-xs font-semibold text-center rounded-full grid grid-cols-2 gap-x-1 leading-5 ring-1 ring-inset ring-gray-200"
               >
                 <RadioGroup.Label className="sr-only">Payment frequency</RadioGroup.Label>
                 {pricing.frequencies.map((option) => (
@@ -116,7 +116,7 @@ export default function PricingPage() {
                 ))}
               </RadioGroup>
             </div>
-            <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 md:max-w-2xl md:grid-cols-2 lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4">
+            <div className="max-w-md mx-auto mt-10 isolate grid grid-cols-1 gap-8 md:max-w-2xl md:grid-cols-2 lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4">
               {pricing.tiers.map((tier) => (
                 <div
                   key={tier.id}
@@ -134,12 +134,12 @@ export default function PricingPage() {
                   >
                     {tier.name}
                   </h2>
-                  <p className="mt-4 text-sm leading-6 text-gray-600">{tier.description}</p>
-                  <p className="mt-6 flex items-baseline gap-x-1">
+                  <p className="mt-4 text-sm text-gray-600 leading-6">{tier.description}</p>
+                  <p className="flex items-baseline mt-6 gap-x-1">
                     <span className="text-4xl font-bold tracking-tight text-gray-900">
                       {tier.price[frequency?.value!]}
                     </span>
-                    <span className="text-sm font-semibold leading-6 text-gray-600">
+                    <span className="text-sm font-semibold text-gray-600 leading-6">
                       {frequency?.priceSuffix}
                     </span>
                   </p>
@@ -155,11 +155,11 @@ export default function PricingPage() {
                   >
                     Buy plan
                   </a>
-                  <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-gray-600">
+                  <ul role="list" className="mt-8 text-sm text-gray-600 space-y-3 leading-6">
                     {tier.features.map((feature) => (
                       <li key={feature} className="flex gap-x-3">
                         <CheckIcon
-                          className="h-6 w-5 flex-none text-indigo-600"
+                          className="flex-none w-5 h-6 text-indigo-600"
                           aria-hidden="true"
                         />
                         {feature}
@@ -172,9 +172,9 @@ export default function PricingPage() {
           </div>
 
           {/* FAQ section */}
-          <div className="mx-auto my-24 max-w-7xl px-6 sm:my-56 lg:px-8">
-            <div className="mx-auto max-w-4xl divide-y divide-gray-900/10">
-              <h2 className="text-2xl font-bold leading-10 tracking-tight text-gray-900">
+          <div className="px-6 mx-auto my-24 max-w-7xl sm:my-56 lg:px-8">
+            <div className="max-w-4xl mx-auto divide-y divide-gray-900/10">
+              <h2 className="text-2xl font-bold tracking-tight text-gray-900 leading-10">
                 Frequently asked questions
               </h2>
               <dl className="mt-10 space-y-6 divide-y divide-gray-900/10">
@@ -183,21 +183,21 @@ export default function PricingPage() {
                     {({ open }) => (
                       <>
                         <dt>
-                          <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
+                          <Disclosure.Button className="flex items-start justify-between w-full text-left text-gray-900">
                             <span className="text-base font-semibold leading-7">
                               {faq.question}
                             </span>
-                            <span className="ml-6 flex h-7 items-center">
+                            <span className="flex items-center ml-6 h-7">
                               {open ? (
-                                <MinusSmallIcon className="h-6 w-6" aria-hidden="true" />
+                                <MinusSmallIcon className="w-6 h-6" aria-hidden="true" />
                               ) : (
-                                <PlusSmallIcon className="h-6 w-6" aria-hidden="true" />
+                                <PlusSmallIcon className="w-6 h-6" aria-hidden="true" />
                               )}
                             </span>
                           </Disclosure.Button>
                         </dt>
-                        <Disclosure.Panel as="dd" className="mt-2 pr-12">
-                          <p className="text-base leading-7 text-gray-600">{faq.answer}</p>
+                        <Disclosure.Panel as="dd" className="pr-12 mt-2">
+                          <p className="text-base text-gray-600 leading-7">{faq.answer}</p>
                         </Disclosure.Panel>
                       </>
                     )}
@@ -212,12 +212,13 @@ export default function PricingPage() {
   )
 }
 
+/*
 function TestimonialSection() {
   return (
     <div className="mx-auto mt-24 max-w-7xl sm:mt-56 sm:px-6 lg:px-8">
-      <div className="relative overflow-hidden bg-gray-900 px-6 py-20 shadow-xl sm:rounded-3xl sm:px-10 sm:py-24 md:px-12 lg:px-20">
+      <div className="relative px-6 py-20 overflow-hidden bg-gray-900 shadow-xl sm:rounded-3xl sm:px-10 sm:py-24 md:px-12 lg:px-20">
         <img
-          className="absolute inset-0 h-full w-full object-cover brightness-150 saturate-0"
+          className="absolute inset-0 object-cover w-full h-full brightness-150 saturate-0"
           src="https://images.unsplash.com/photo-1601381718415-a05fb0a261f3?ixid=MXwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8ODl8fHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1216&q=80"
           alt=""
         />
@@ -243,9 +244,9 @@ function TestimonialSection() {
             }}
           />
         </div>
-        <div className="relative mx-auto max-w-2xl lg:mx-0">
+        <div className="relative max-w-2xl mx-auto lg:mx-0">
           <img
-            className="h-12 w-auto"
+            className="w-auto h-12"
             src="https://tailwindui.com/img/logos/workcation-logo-white.svg"
             alt=""
           />
@@ -266,3 +267,5 @@ function TestimonialSection() {
     </div>
   )
 }
+
+ */

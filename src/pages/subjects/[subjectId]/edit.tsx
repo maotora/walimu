@@ -10,7 +10,7 @@ import Layout from "src/core/layouts/Layout"
 import { UpdateSubjectSchema } from "src/subjects/schemas"
 import getSubject from "src/subjects/queries/getSubject"
 import updateSubject from "src/subjects/mutations/updateSubject"
-import { SubjectForm, FORM_ERROR } from "src/subjects/components/SubjectForm"
+import { SubjectForm } from "src/subjects/components/SubjectForm"
 
 export const EditSubject = () => {
   const router = useRouter()
@@ -42,7 +42,6 @@ export const EditSubject = () => {
             onSubmit={async (values) => {
               try {
                 const updated = await updateSubjectMutation({
-                  id: subject.id,
                   ...values,
                 })
                 await setQueryData(updated)
@@ -50,7 +49,7 @@ export const EditSubject = () => {
               } catch (error: any) {
                 console.error(error)
                 return {
-                  [FORM_ERROR]: error.toString(),
+                  error: error.toString(),
                 }
               }
             }}

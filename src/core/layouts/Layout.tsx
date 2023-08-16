@@ -11,12 +11,12 @@ const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
   return (
     <>
       <Head>
-        <title>{title || "walimu"}</title>
+        <title>{title || "Kuhama Walimu"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Header />
-      {children}
+      <div className="px-4">{children}</div>
       <Footer />
     </>
   )

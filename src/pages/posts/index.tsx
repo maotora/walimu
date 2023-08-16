@@ -23,14 +23,6 @@ export const PostsList = () => {
 
   return (
     <div>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.id}>
-            <Link href={Routes.ShowPostPage({ postId: post.id })}>{post.name}</Link>
-          </li>
-        ))}
-      </ul>
-
       <button disabled={page === 0} onClick={goToPreviousPage}>
         Previous
       </button>
