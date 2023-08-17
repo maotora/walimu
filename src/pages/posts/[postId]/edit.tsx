@@ -7,10 +7,9 @@ import { useQuery, useMutation } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
 
 import Layout from "src/core/layouts/Layout"
-import { UpdatePostSchema } from "src/posts/schemas"
 import getPost from "src/posts/queries/getPost"
 import updatePost from "src/posts/mutations/updatePost"
-import { PostForm, FORM_ERROR } from "src/posts/components/PostForm"
+import PostForm from "src/posts/components/PostForm"
 
 export const EditPost = () => {
   const router = useRouter()
@@ -37,8 +36,6 @@ export const EditPost = () => {
         <Suspense fallback={<div>Loading...</div>}>
           <PostForm
             submitText="Update Post"
-            schema={UpdatePostSchema}
-            initialValues={post}
             onSubmit={async (values) => {
               try {
                 const updated = await updatePostMutation({
@@ -49,7 +46,7 @@ export const EditPost = () => {
               } catch (error: any) {
                 console.error(error)
                 return {
-                  [FORM_ERROR]: error.toString(),
+                  error: error.toString(),
                 }
               }
             }}
