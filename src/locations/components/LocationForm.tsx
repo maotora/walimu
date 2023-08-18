@@ -30,7 +30,7 @@ function parseLocations(locations: any[], name: string) {
 }
 
 const ROOT_URL =
-  process.env.NODE_ENV === "development"
+  process.env.NODE_ENV === "production"
     ? "https://locations.webongo.services"
     : "http://192.168.0.105:3000"
 
