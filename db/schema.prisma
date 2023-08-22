@@ -6,8 +6,7 @@ datasource db {
 }
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["interactiveTransactions"]
+  provider = "prisma-client-js"
 }
 
 // --------------------------------------
@@ -122,6 +121,7 @@ model Post {
   postWatchers Watcher[]
   subjects     TeachingSubject[]
   type         SchoolType        @default(NORMAL)
+  active       Boolean           @default(true)
 
   @@map("posts")
 }
@@ -148,7 +148,9 @@ model Watcher {
   postId    Int      @map("post_id")
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  comment   String
+  comment   String?
+  paired    Boolean? @default(false)
+  approved  Boolean? @default(false)
 
   @@unique([userId, postId], name: "watcherUniquness")
   @@map("watchers")

@@ -9,20 +9,53 @@ export default resolver.pipe(
   async ({ userId: providedUserId, postId, comment }, ctx: Ctx) => {
     const ctxUserId = ctx.session.userId
     const userId = ctxUserId ? ctxUserId : providedUserId ? providedUserId : -1
-    const watcher = await db.watcher.upsert({
-      create: {
-        userId,
-        postId,
-        comment,
-      },
-      update: {
-        comment,
-      },
+
+    if (comment) {
+      const watcher = await db.watcher.upsert({
+        create: {
+          userId,
+          postId,
+          comment: comment,
+          approved: false,
+        },
+        update: {
+          comment,
+        },
+        where: {
+          watcherUniquness: {
+            userId,
+            postId,
+          },
+        },
+      })
+
+      return watcher
+    }
+
+    const activeWatcher = await db.watcher.findUnique({
       where: {
         watcherUniquness: {
           userId,
           postId,
         },
+      },
+    })
+
+    if (activeWatcher) {
+      const deletedPair = await db.watcher.delete({
+        where: {
+          id: activeWatcher.id,
+        },
+      })
+
+      return deletedPair
+    }
+
+    const watcher = await db.watcher.create({
+      data: {
+        postId,
+        userId,
+        approved: true,
       },
     })
 

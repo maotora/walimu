@@ -2,14 +2,24 @@ import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@bl
 import { MantineProvider } from "@mantine/core"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import React from "react"
+import { useRouter } from "next/router"
 import { withBlitz } from "src/blitz-client"
+import LoginForm from "src/auth/components/LoginForm"
 import "src/styles/globals.css"
 
 import "src/core/styles/index.css"
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
+  const router = useRouter()
   if (error instanceof AuthenticationError) {
-    return <div>Error: You are not authenticated</div>
+    return (
+      <LoginForm
+        onSuccess={(_user) => {
+          const next = router.query.next ? decodeURIComponent(router.query.next as string) : "/"
+          return router.push(next)
+        }}
+      />
+    )
   } else if (error instanceof AuthorizationError) {
     return (
       <ErrorComponent

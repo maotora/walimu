@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { formatItems } from "utils"
 import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
+import { tailwindClassNames as classNames } from "utils"
 
 export type UserWithIncludes = Prisma.UserGetPayload<{
   select: {
@@ -24,7 +25,7 @@ export type UserWithIncludes = Prisma.UserGetPayload<{
 
 export default function UserView(props: { user: UserWithIncludes }) {
   const { user } = props
-  const [userInfo, setUserInfo] = useState<UserInfoProps[]>([])
+  const [userInfo, setUserInfo] = useState<ListInfoProps[]>([])
   const router = useRouter()
 
   useEffect(() => {
@@ -58,7 +59,7 @@ export default function UserView(props: { user: UserWithIncludes }) {
 
       <dl className="mt-6 text-sm border-t border-gray-200 space-y-6 divide-y divide-gray-100 leading-6">
         {userInfo.map((info, idx) => (
-          <UserInfo key={idx} {...info} />
+          <InfoList key={idx} {...info} />
         ))}
       </dl>
       <div className="flex pt-6 border-t border-gray-100">
@@ -74,15 +75,15 @@ export default function UserView(props: { user: UserWithIncludes }) {
   )
 }
 
-export type UserInfoProps = {
+export type ListInfoProps = {
   label: string
   value: string
 }
 
-function UserInfo(props: UserInfoProps) {
-  const { label, value } = props
+export function InfoList(props: ListInfoProps & { center?: boolean }) {
+  const { label, value, center } = props
   return (
-    <div className="w-full lg:w-3/4">
+    <div className={classNames("w-full lg:w-3/4", center ? "mx-auto" : "")}>
       <div className="flex justify-between py-6 gap-x-6">
         <dt className="font-medium text-gray-900">{label}</dt>
         <dd className="text-gray-900 font-base">{value}</dd>

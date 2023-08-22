@@ -3,7 +3,7 @@ import { Dialog } from "@headlessui/react"
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 import Link from "next/link"
 import { useSession } from "@blitzjs/auth"
-import { Button } from "@mantine/core"
+import { Button, UnstyledButton } from "@mantine/core"
 import logout from "src/auth/mutations/logout"
 import { invoke } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
@@ -12,6 +12,7 @@ import Image from "next/image"
 
 const navigation = [
   { name: "Home", href: "/" },
+  { name: "Posts", href: "/posts" },
   { name: "About", href: "/about" },
   { name: "Contacts", href: "/contacts" },
 ]
@@ -110,12 +111,32 @@ function LoginOrDashboard(props: { isMobile?: boolean }) {
   }
 
   if (session.userId) {
+    if (isMobile) {
+      return (
+        <div className="flex flex-col">
+          <Link href="/dashboard" legacyBehavior>
+            <a className="text-sm font-semibold text-gray-900 leading-6">Dashboard</a>
+          </Link>
+          <UnstyledButton
+            className="mt-6 text-sm font-semibold text-gray-900 leading-6"
+            onClick={handleLogout}
+          >
+            Logout
+          </UnstyledButton>
+        </div>
+      )
+    }
     return (
       <>
         <Link href="/dashboard" legacyBehavior>
           <a className="text-sm font-semibold text-gray-900 leading-6">Dashboard</a>
         </Link>
-        <Button onClick={handleLogout}>Logout</Button>
+        <UnstyledButton
+          className="text-sm font-semibold text-gray-900 leading-6"
+          onClick={handleLogout}
+        >
+          Logout
+        </UnstyledButton>
       </>
     )
   }

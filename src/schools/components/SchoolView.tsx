@@ -2,12 +2,12 @@ import { UserWithIncludes } from "src/users/components/UserView"
 import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
 import { useState, useEffect } from "react"
-import { UserInfoProps } from "src/users/components/UserView"
+import { ListInfoProps } from "src/users/components/UserView"
 
 export default function SchoolInfo(props: { user: UserWithIncludes }) {
   const { user } = props
   const router = useRouter()
-  const [schoolInfo, setSchoolInfo] = useState<UserInfoProps[]>([])
+  const [schoolInfo, setSchoolInfo] = useState<ListInfoProps[]>([])
 
   useEffect(() => {
     const { currentSchool } = user

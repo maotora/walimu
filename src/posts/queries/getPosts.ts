@@ -3,12 +3,10 @@ import { resolver } from "@blitzjs/rpc"
 import db, { Prisma } from "db"
 
 interface GetPostsInput
-  extends Pick<Prisma.PostFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}
+  extends Pick<Prisma.PostFindManyArgs, "where" | "orderBy" | "skip" | "take" | "include"> {}
 
 export default resolver.pipe(
-  resolver.authorize(),
-  async ({ where, orderBy, skip = 0, take = 100 }: GetPostsInput) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
+  async ({ where, include, orderBy, skip = 0, take = 100 }: GetPostsInput) => {
     const {
       items: posts,
       hasMore,
@@ -18,7 +16,7 @@ export default resolver.pipe(
       skip,
       take,
       count: () => db.post.count({ where }),
-      query: (paginateArgs) => db.post.findMany({ ...paginateArgs, where, orderBy }),
+      query: (paginateArgs) => db.post.findMany({ ...paginateArgs, where, include, orderBy }),
     })
 
     return {
