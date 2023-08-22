@@ -10,6 +10,7 @@ import Layout from "src/core/layouts/Layout"
 import getPost from "src/posts/queries/getPost"
 import updatePost from "src/posts/mutations/updatePost"
 import PostForm from "src/posts/components/PostForm"
+import { PostsWithIncludes } from "src/posts/components/PostsList"
 
 export const EditPost = () => {
   const router = useRouter()
@@ -41,7 +42,7 @@ export const EditPost = () => {
                 const updated = await updatePostMutation({
                   ...values,
                 })
-                await setQueryData(updated)
+                await setQueryData(updated as PostsWithIncludes)
                 await router.push(Routes.ShowPostPage({ postId: updated.id }))
               } catch (error: any) {
                 console.error(error)

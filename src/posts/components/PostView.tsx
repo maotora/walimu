@@ -158,7 +158,9 @@ export default function PostViews(props: { post: PostsWithIncludes }) {
         value: getTeachingSubjects(subjects),
       },
     ])
-    addViews()
+    addViews().catch((err) => {
+      console.log(err)
+    })
   }, [post])
 
   async function handleAddPair() {
