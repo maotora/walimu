@@ -27,19 +27,19 @@ export default function SideBar() {
       },
       {
         name: "Posts",
-        href: `/posts/user/${userId}`,
+        href: `/dashboard/posts`,
         icon: FingerPrintIcon,
         current: "posts".includes(router.pathname.replace("/", "")) ? true : false,
       },
       {
         name: "Locations",
-        href: `/locations/user/${userId}`,
+        href: `/dashboard/locations`,
         icon: BellIcon,
         current: "location".includes(router.pathname.replace("/", "")) ? true : false,
       },
       {
         name: "Subscription",
-        href: `/plan/user/${userId}`,
+        href: `/dashboard/plan`,
         icon: CubeIcon,
         current: "plan".includes(router.pathname.replace("/", "")) ? true : false,
       },

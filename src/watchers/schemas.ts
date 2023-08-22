@@ -7,7 +7,8 @@ export const CreateWatcherSchema = z.object({
 })
 export const UpdateWatcherSchema = z.object({
   id: z.number(),
-  comment: z.string(),
+  paired: z.boolean().optional(),
+  comment: z.string().optional(),
 })
 
 export const DeleteWatcherSchema = z.object({

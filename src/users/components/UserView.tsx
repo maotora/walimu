@@ -62,7 +62,7 @@ export default function UserView(props: { user: UserWithIncludes }) {
           <InfoList key={idx} {...info} />
         ))}
       </dl>
-      <div className="flex pt-6 border-t border-gray-100">
+      {/*<div className="flex pt-6 border-t border-gray-100">
         <button
           type="button"
           className="text-sm font-semibold text-indigo-600 leading-6 hover:text-indigo-500"
@@ -70,7 +70,7 @@ export default function UserView(props: { user: UserWithIncludes }) {
         >
           <span aria-hidden="true">+</span> Change Profile Information
         </button>
-      </div>
+        </div>*/}
     </div>
   )
 }
