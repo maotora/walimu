@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+import Head from "next/head"
 import MyPostView from "src/posts/components/MyPostView"
 import { useAuthenticatedSession } from "@blitzjs/auth"
 import { useQuery } from "@blitzjs/rpc"
@@ -138,6 +139,10 @@ function MyPostComponent() {
 export default function MyPostPage() {
   return (
     <Layout>
+      <Head>
+        <title>My Post</title>
+      </Head>
+
       <Suspense fallback={"Loading..."}>
         <MyPostComponent />
       </Suspense>

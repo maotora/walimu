@@ -23,27 +23,43 @@ export default function SideBar() {
         name: "General",
         href: `/dashboard`,
         icon: UserCircleIcon,
-        current: "dashboard".includes(router.pathname.replace("/", "")) ? true : false,
+        current: !!router.pathname
+          .split("/")
+          .filter(
+            (name, idx, arrRef) => name && name.includes("dashboard") && idx === arrRef.length - 1
+          ).length,
       },
       {
         name: "Posts",
         href: `/dashboard/posts`,
         icon: FingerPrintIcon,
-        current: "posts".includes(router.pathname.replace("/", "")) ? true : false,
+        current: !!router.pathname
+          .split("/")
+          .filter(
+            (name, idx, arrRef) => name && name.includes("posts") && idx === arrRef.length - 1
+          ).length,
       },
       {
         name: "Locations",
         href: `/dashboard/locations`,
         icon: BellIcon,
-        current: "location".includes(router.pathname.replace("/", "")) ? true : false,
+        current: !!router.pathname
+          .split("/")
+          .filter(
+            (name, idx, arrRef) => name && name.includes("location") && idx === arrRef.length - 1
+          ).length,
       },
       {
         name: "Subscription",
         href: `/dashboard/plan`,
         icon: CubeIcon,
-        current: "plan".includes(router.pathname.replace("/", "")) ? true : false,
+        current: !!router.pathname
+          .split("/")
+          .filter((name, idx, arrRef) => name && name.includes("plan") && idx === arrRef.length - 1)
+          .length,
       },
     ]
+
     setNavigation(dashboardNav)
   }, [userId, router])
 

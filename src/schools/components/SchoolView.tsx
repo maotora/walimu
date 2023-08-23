@@ -45,9 +45,9 @@ export default function SchoolInfo(props: { user: UserWithIncludes }) {
           className="w-full mt-6 text-sm border-t border-gray-200 lg:w-3/4 divide-y divide-gray-100 leading-6"
         >
           {schoolInfo.map(({ label, value }, idx) => (
-            <li className="flex justify-between py-6 gap-x-6" key={idx}>
-              <div className="font-medium text-gray-900">{label}</div>
-              <div className="text-gray-900 font-base">{value}</div>
+            <li className="flex py-6 gap-x-6" key={idx}>
+              <div className="w-1/3 font-medium text-gray-900">{label}</div>
+              <div className="w-2/3 text-gray-900 font-base">{value}</div>
             </li>
           ))}
         </ul>

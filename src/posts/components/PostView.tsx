@@ -95,41 +95,51 @@ export default function PostViews(props: { post: PostsWithIncludes }) {
   }
 
   return (
-    <div className="px-4">
-      <dl className="mt-6 text-sm border-gray-200 border-y space-y-6 divide-y divide-gray-100 leading-4">
-        {postInfo.map((info, idx) => (
-          <InfoList center={true} key={idx} {...info} />
-        ))}
-        <div className="w-full mx-auto lg:w-3/4">
-          <div className="flex justify-between py-6 gap-x-6">
-            <dt className="font-medium text-gray-900">Preferred Locations:</dt>
-            <dd className="text-gray-900 font-base">
-              <ul>
-                {post.locations.map(({ location }) => (
-                  <li key={location.id}> {createLocationName(location, true)} </li>
-                ))}
-              </ul>
-            </dd>
+    <>
+      <div className="px-4">
+        <h2 className="text-base font-semibold text-gray-900 leading-7">Post View</h2>
+        <p className="mt-1 text-sm text-gray-500 leading-6">
+          See the basic information about this teacher actively looking for a transfer.
+        </p>
+      </div>
+      <div className="px-4">
+        <dl className="mt-6 text-sm border-gray-200 border-y space-y-6 divide-y divide-gray-100 leading-4">
+          {postInfo.map((info, idx) => (
+            <InfoList center={true} key={idx} {...info} />
+          ))}
+          <div className="w-full mx-auto lg:w-3/4">
+            <div className="flex py-6 gap-x-6">
+              <dt className="w-1/3 font-medium text-gray-900">Preferred Locations:</dt>
+              <dd className="w-2/3 text-gray-900 font-base">
+                <ul>
+                  {post.locations.map(({ location }) => (
+                    <li key={location.id}> {createLocationName(location, true)} </li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          </div>
+        </dl>
+        <div className="flex justify-center w-2/3 mx-auto my-8">
+          <div className="flex flex-row w-2/3">
+            <EyeIcon className="flex-none w-6 h-6 pr-2 text-blue-600" aria-hidden="true" />
+            <span>{viewsCount} Views</span>
+          </div>
+          <div className="flex flex-row w-2/3">
+            <Button
+              color={alreadyPaired ? "gray" : ""}
+              disabled={disablePair}
+              loading={watcherLoading}
+              onClick={handleAddPair}
+              leftIcon={
+                <LinkIcon className="flex-none w-6 h-6 pr-2 text-white" aria-hidden="true" />
+              }
+            >
+              {watcherCount} {alreadyPaired ? "Pair Request Sent" : "Pair Request"}
+            </Button>
           </div>
         </div>
-      </dl>
-      <div className="flex justify-center w-2/3 mx-auto my-8">
-        <div className="flex flex-row w-2/3">
-          <EyeIcon className="flex-none w-6 h-6 pr-2 text-blue-600" aria-hidden="true" />
-          <span>{viewsCount} Views</span>
-        </div>
-        <div className="flex flex-row w-2/3">
-          <Button
-            color={alreadyPaired ? "gray" : ""}
-            disabled={disablePair}
-            loading={watcherLoading}
-            onClick={handleAddPair}
-            leftIcon={<LinkIcon className="flex-none w-6 h-6 pr-2 text-white" aria-hidden="true" />}
-          >
-            {watcherCount} {alreadyPaired ? "Pair Request Sent" : "Pair Request"}
-          </Button>
-        </div>
       </div>
-    </div>
+    </>
   )
 }

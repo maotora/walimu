@@ -84,9 +84,9 @@ export function InfoList(props: ListInfoProps & { center?: boolean }) {
   const { label, value, center } = props
   return (
     <div className={classNames("w-full lg:w-3/4", center ? "mx-auto" : "")}>
-      <div className="flex justify-between py-6 gap-x-6">
-        <dt className="font-medium text-gray-900">{label}</dt>
-        <dd className="text-gray-900 font-base">{value}</dd>
+      <div className="flex py-6 gap-x-6">
+        <dt className="w-1/3 font-medium text-gray-900">{label}</dt>
+        <dd className="w-2/3 text-gray-900 font-base">{value}</dd>
       </div>
     </div>
   )
