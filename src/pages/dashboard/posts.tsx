@@ -127,7 +127,7 @@ function MyPostComponent() {
   ) : (
     <div className="flex w-full h-full">
       <div className="flex flex-col space-y-8">
-        <h2>You don't have any post yet, please click button below to add a new post</h2>
+        <h2>No any post yet, please click button below to add a new post</h2>
         <div className="flex justify-center">
           <Button onClick={async () => await router.push(Routes.NewPostPage())}> Add Post </Button>
         </div>
