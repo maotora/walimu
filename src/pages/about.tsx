@@ -1,4 +1,10 @@
-import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from "@heroicons/react/20/solid"
+import {
+  CloudArrowUpIcon,
+  GlobeAltIcon,
+  ArrowUpCircleIcon,
+  LockClosedIcon,
+  ServerIcon,
+} from "@heroicons/react/20/solid"
 import Layout from "src/core/layouts/Layout"
 
 export default function AboutPage() {
@@ -17,21 +23,77 @@ export default function AboutPage() {
             }}
           />
         </div>
-        <div className="px-6 mx-auto max-w-7xl lg:px-8">
-          <div className="max-w-2xl mx-auto lg:mx-0">
-            <p className="text-lg font-semibold tracking-tight text-indigo-600 leading-8">
-              Deploy faster
-            </p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              A better workflow
-            </h1>
-            <p className="mt-6 text-xl text-gray-700 leading-8">
-              Aliquet nec orci mattis amet quisque ullamcorper neque, nibh sem. At arcu, sit dui mi,
-              nibh dui, diam eget aliquam. Quisque id at vitae feugiat egestas ac. Diam nulla orci
-              at in viverra scelerisque eget. Eleifend egestas fringilla sapien.
-            </p>
+        <div className="flex flex-col w-full px-6 mx-auto md:flex-row max-w-7xl lg:px-8">
+          <div className="w-full md:w-3/5">
+            <div className="max-w-2xl mx-auto lg:mx-0">
+              <p className="text-lg font-semibold tracking-tight text-indigo-600 leading-8">
+                Kupeleka Haraka
+              </p>
+              <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                Mchakato Bora wa Kazi
+              </h1>
+              <p className="mt-6 text-base text-gray-700 md:text-lg lg:text-base leading-7">
+                MbuyuFikra, shirika lililoanzishwa mkoani Dodoma, Tanzania, linajitahidi kuboresha
+                maisha ya jamii kupitia miradi mbalimbali. Moja ya miradi yetu ni kubuni na
+                kutekeleza programu inayosaidia walimu kupata wenzao wa kubadilishana shule
+                kulingana na aina ya shule, masomo wanayofundisha, na eneo la shule hiyo.
+              </p>
+            </div>
+            <div className="max-w-xl text-base text-gray-700 md:text-lg lg:text-base leading-7 lg:col-span-7">
+              <p>
+                Kupitia programu hii, walimu wanaweza kufanya mabadilishano ya shule kwa urahisi na
+                ufanisi zaidi. Tunathamini mchango wa walimu wetu katika kuboresha elimu na tunataka
+                kuhakikisha kuwa rasilimali hii inasaidia katika kufikia malengo yetu ya pamoja.
+              </p>
+              <ul
+                role="list"
+                className="max-w-xl mt-6 text-gray-600 md:mt-8 lg:mt-6 space-y-6 md:space-y-8"
+              >
+                <li className="flex gap-x-3">
+                  <ArrowUpCircleIcon
+                    className="flex-none w-5 h-5 mt-1 text-indigo-600"
+                    aria-hidden="true"
+                  />
+                  <span className="text-base md:text-lg lg:text-base">
+                    <strong className="font-semibold text-gray-900">Kupeleka Haraka.</strong>{" "}
+                    Programu yetu inaruhusu walimu kubadilishana shule kwa urahisi na haraka. Hii
+                    inasaidia kuboresha mazingira ya kazi kwa walimu.
+                  </span>
+                </li>
+                <li className="flex gap-x-3">
+                  <LockClosedIcon
+                    className="flex-none w-5 h-5 mt-1 text-indigo-600"
+                    aria-hidden="true"
+                  />
+                  <span className="text-base md:text-lg lg:text-base">
+                    <strong className="font-semibold text-gray-900">Usalama wa Takwimu.</strong>{" "}
+                    Tunaipa kipaumbele usalama wa taarifa za walimu na shule. Takwimu zote
+                    zinahifadhiwa kwa njia salama na za siri.
+                  </span>
+                </li>
+                <li className="flex gap-x-3">
+                  <GlobeAltIcon
+                    className="flex-none w-5 h-5 mt-1 text-indigo-600"
+                    aria-hidden="true"
+                  />
+                  <span className="text-base md:text-lg lg:text-base">
+                    <strong className="font-semibold text-gray-900">Kanda Toofauti.</strong>{" "}
+                    Programu yetu inaruhusu walimu kubadilishana shule kwa kuzingatia eneo lao na
+                    aina ya shule wanazopendelea kufundisha.
+                  </span>
+                </li>
+              </ul>
+              <p className="mt-6 text-base text-gray-700 md:text-lg lg:text-base leading-7">
+                Aidha, tunatoa taarifa za mabadilishano kwa walimu pale eneo linalopendelewa na
+                mwalimu mmoja linapolingana na posti ya mwalimu mwingine. Taarifa hizi zinaweza
+                kutolewa kupitia barua pepe au ujumbe mfupi wa SMS. Pia, tunapenda kuwahakikishia
+                walimu kuwa hatutaweka hadharani taarifa zao za mawasiliano hadi watakapokubali ombi
+                la kubadilishana shule lililowasilishwa na mwalimu mwingine anayependa kubadilishana
+                shule hiyo.
+              </p>
+            </div>
           </div>
-          <div className="max-w-2xl mx-auto mt-16 grid grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:mt-10 lg:max-w-none lg:grid-cols-12">
+          <div className="w-full mt-8 md:w-2/5 md:mt-0 md:self-center">
             <div className="relative lg:order-last lg:col-span-5">
               <svg
                 className="absolute -top-[40rem] left-1 -z-10 h-[64rem] w-[175.5rem] -translate-x-1/2 stroke-gray-900/10 [mask-image:radial-gradient(64rem_64rem_at_111.5rem_0%,white,transparent)]"
@@ -57,83 +119,19 @@ export default function AboutPage() {
               <figure className="pl-8 border-l border-indigo-600">
                 <blockquote className="text-xl font-semibold tracking-tight text-gray-900 leading-8">
                   <p>
-                    “Vel ultricies morbi odio facilisi ultrices accumsan donec lacus purus. Lectus
-                    nibh ullamcorper ac dictum justo in euismod. Risus aenean ut elit massa. In amet
-                    aliquet eget cras. Sem volutpat enim tristique.”
+                    “The power of education extends beyond the development of skills we need for
+                    economic success. It can contribute to nation-building and reconciliation.”
                   </p>
                 </blockquote>
                 <figcaption className="flex mt-8 gap-x-4">
-                  <img
-                    src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                    className="flex-none w-10 h-10 mt-1 rounded-full bg-gray-50"
-                  />
                   <div className="text-sm leading-6">
-                    <div className="font-semibold text-gray-900">Brenna Goyette</div>
-                    <div className="text-gray-600">@brenna</div>
+                    <div className="font-semibold text-gray-900">Nelson Mandela</div>
+                    <div className="text-gray-600">
+                      Anti-Apartheid Revolutionary, Former President of South Africa
+                    </div>
                   </div>
                 </figcaption>
               </figure>
-            </div>
-            <div className="max-w-xl text-base text-gray-700 leading-7 lg:col-span-7">
-              <p>
-                Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis
-                mauris semper sed amet vitae sed turpis id. Id dolor praesent donec est. Odio
-                penatibus risus viverra tellus varius sit neque erat velit. Faucibus commodo massa
-                rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris semper sed amet
-                vitae sed turpis id.
-              </p>
-              <ul role="list" className="max-w-xl mt-8 text-gray-600 space-y-8">
-                <li className="flex gap-x-3">
-                  <CloudArrowUpIcon
-                    className="flex-none w-5 h-5 mt-1 text-indigo-600"
-                    aria-hidden="true"
-                  />
-                  <span>
-                    <strong className="font-semibold text-gray-900">Push to deploy.</strong> Lorem
-                    ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis
-                    suscipit eaque, iste dolor cupiditate blanditiis ratione.
-                  </span>
-                </li>
-                <li className="flex gap-x-3">
-                  <LockClosedIcon
-                    className="flex-none w-5 h-5 mt-1 text-indigo-600"
-                    aria-hidden="true"
-                  />
-                  <span>
-                    <strong className="font-semibold text-gray-900">SSL certificates.</strong> Anim
-                    aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat
-                    commodo.
-                  </span>
-                </li>
-                <li className="flex gap-x-3">
-                  <ServerIcon
-                    className="flex-none w-5 h-5 mt-1 text-indigo-600"
-                    aria-hidden="true"
-                  />
-                  <span>
-                    <strong className="font-semibold text-gray-900">Database backups.</strong> Ac
-                    tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi
-                    lobortis.
-                  </span>
-                </li>
-              </ul>
-              <p className="mt-8">
-                Et vitae blandit facilisi magna lacus commodo. Vitae sapien duis odio id et. Id
-                blandit molestie auctor fermentum dignissim. Lacus diam tincidunt ac cursus in vel.
-                Mauris varius vulputate et ultrices hac adipiscing egestas. Iaculis convallis ac
-                tempor et ut. Ac lorem vel integer orci.
-              </p>
-              <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
-                No server? No problem.
-              </h2>
-              <p className="mt-6">
-                Id orci tellus laoreet id ac. Dolor, aenean leo, ac etiam consequat in. Convallis
-                arcu ipsum urna nibh. Pharetra, euismod vitae interdum mauris enim, consequat
-                vulputate nibh. Maecenas pellentesque id sed tellus mauris, ultrices mauris.
-                Tincidunt enim cursus ridiculus mi. Pellentesque nam sed nullam sed diam turpis
-                ipsum eu a sed convallis diam.
-              </p>
             </div>
           </div>
         </div>
