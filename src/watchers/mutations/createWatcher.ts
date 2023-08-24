@@ -11,7 +11,7 @@ export default resolver.pipe(
     const userId = ctxUserId ? ctxUserId : providedUserId ? providedUserId : -1
 
     if (comment) {
-      const watcher = await db.watcher.upsert({
+      const pair = await db.watcher.upsert({
         create: {
           userId,
           postId,
@@ -29,7 +29,7 @@ export default resolver.pipe(
         },
       })
 
-      return watcher
+      return { pair }
     }
 
     const activeWatcher = await db.watcher.findUnique({
@@ -42,7 +42,7 @@ export default resolver.pipe(
     })
 
     if (activeWatcher) {
-      const updatedPair = await db.watcher.update({
+      const pair = await db.watcher.update({
         where: {
           id: activeWatcher.id,
         },
@@ -51,10 +51,17 @@ export default resolver.pipe(
         },
       })
 
-      return updatedPair
+      const pairCount = await db.watcher.count({
+        where: {
+          postId,
+          approved: true,
+        },
+      })
+
+      return { pair, pairCount }
     }
 
-    const watcher = await db.watcher.create({
+    const pair = await db.watcher.create({
       data: {
         postId,
         userId,
@@ -62,6 +69,12 @@ export default resolver.pipe(
       },
     })
 
-    return watcher
+    const pairCount = await db.watcher.count({
+      where: {
+        postId,
+        approved: true,
+      },
+    })
+    return { pair, pairCount }
   }
 )

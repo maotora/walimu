@@ -1,11 +1,5 @@
 import { LinkIcon, NoSymbolIcon } from "@heroicons/react/20/solid"
-import {
-  tailwindClassNames as classNames,
-  getTeachingSubjects,
-  createPostTitle,
-  createLocationName,
-  formatItems,
-} from "utils"
+import { getTeachingSubjects, createPostTitle, createLocationName, formatItems } from "utils"
 import { Button } from "@mantine/core"
 import { useRouter } from "next/router"
 import { Prisma } from "@prisma/client"

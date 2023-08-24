@@ -48,7 +48,7 @@ export default function PostViews(props: { post: PostsWithIncludes }) {
     })
 
     const pairedBefore = post.postWatchers.filter(
-      (watching) => watching && watching.userId === userId
+      (watching) => watching && watching.userId === userId && watching.approved === true
     )
     setAlreadyPaired(pairedBefore.length ? true : false)
 
@@ -84,13 +84,10 @@ export default function PostViews(props: { post: PostsWithIncludes }) {
 
   async function handleAddPair() {
     setWatcherLoading(true)
-    const updatedWatcher = await watcherMutation({ userId, postId: post.id })
-    const watcherCount = updatedWatcher.approved
-      ? post.postWatchers.length + 1
-      : post.postWatchers.length
-    setWatcherCount(watcherCount)
+    const { pair, pairCount } = await watcherMutation({ userId, postId: post.id })
+    setWatcherCount(pairCount as number)
     setWatcherLoading(false)
-    setAlreadyPaired(!!updatedWatcher.approved)
+    setAlreadyPaired(!!pair.approved)
   }
 
   return (
