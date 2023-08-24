@@ -58,7 +58,7 @@ export default function PostViews(props: { post: PostsWithIncludes }) {
     setPostInfo([
       {
         label: "Posted on:",
-        value: post.createdAt.toLocaleDateString("sw"),
+        value: post.createdAt.toDateString(),
       },
       {
         label: "Author:",
@@ -84,14 +84,13 @@ export default function PostViews(props: { post: PostsWithIncludes }) {
 
   async function handleAddPair() {
     setWatcherLoading(true)
-    await watcherMutation({ userId, postId: post.id })
-    const updatedPost = (await invoke(getPost, {
-      id: post.id,
-    })) as PostsWithIncludes
-
-    setWatcherCount(updatedPost.postWatchers.length)
+    const updatedWatcher = await watcherMutation({ userId, postId: post.id })
+    const watcherCount = updatedWatcher.approved
+      ? post.postWatchers.length + 1
+      : post.postWatchers.length
+    setWatcherCount(watcherCount)
     setWatcherLoading(false)
-    setAlreadyPaired(true)
+    setAlreadyPaired(!!updatedWatcher.approved)
   }
 
   return (

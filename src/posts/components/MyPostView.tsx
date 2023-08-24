@@ -1,4 +1,4 @@
-import { LinkIcon } from "@heroicons/react/20/solid"
+import { LinkIcon, NoSymbolIcon } from "@heroicons/react/20/solid"
 import {
   tailwindClassNames as classNames,
   getTeachingSubjects,
@@ -9,7 +9,7 @@ import {
 import { Button } from "@mantine/core"
 import { useRouter } from "next/router"
 import { Prisma } from "@prisma/client"
-import { useState, useEffect } from "react"
+import { useState, useEffect, Dispatch, SetStateAction } from "react"
 import { Routes } from "@blitzjs/next"
 import { ListInfoProps, InfoList } from "src/users/components/UserView"
 import { useMutation } from "@blitzjs/rpc"
@@ -31,6 +31,7 @@ export default function MyPostView(props: { post: MyPostViewTypeWithIncludes }) 
   const [postInfo, setPostInfo] = useState<ListInfoProps[]>([])
   const [viewsCount, setViewsCount] = useState(0)
   const [actualViews, setActualViews] = useState(0)
+  const [pairRequest, setPairRequest] = useState<any[]>([])
   useEffect(() => {
     const actualViewsCount = post.postViewers.reduce((acc, { count }) => {
       return (acc += count)
@@ -64,6 +65,8 @@ export default function MyPostView(props: { post: MyPostViewTypeWithIncludes }) 
         value: `Unique Views: ${viewsCount},  Repeating Views: ${actualViews}`,
       },
     ])
+
+    setPairRequest(post.postWatchers)
   }, [post])
 
   return (
@@ -108,29 +111,34 @@ export default function MyPostView(props: { post: MyPostViewTypeWithIncludes }) 
             This is the post that you made, it will be publicily available until you meet a pair.
           </p>
           <div className="text-gray-900 font-base">
-            {post.postWatchers.map(({ createdAt, id, paired, user }) => {
-              const [schoolName, schoolType, schoolLocation, requesterName, teachingSubjects] = [
-                createPostTitle(post),
-                formatItems(user.currentSchool?.type || "N/A"),
-                createLocationName(user.currentSchool?.location),
-                user.name,
-                getTeachingSubjects(user.posts[0]?.subjects!) || "N/A",
-              ]
-              return (
-                <PostInfo
-                  key={id}
-                  pairedData={{
-                    createdAt,
-                    id,
-                    paired,
-                    schoolName,
-                    schoolType,
-                    schoolLocation,
-                    requesterName,
-                    teachingSubjects,
-                  }}
-                />
-              )
+            {pairRequest.map(({ createdAt, id, paired, user, approved }) => {
+              if (approved) {
+                const [schoolName, schoolType, schoolLocation, requesterName, teachingSubjects] = [
+                  createPostTitle(post),
+                  formatItems(user.currentSchool?.type || "N/A"),
+                  createLocationName(user.currentSchool?.location),
+                  user.name,
+                  getTeachingSubjects(user.posts[0]?.subjects!) || "N/A",
+                ]
+                return (
+                  <PostInfo
+                    key={id}
+                    pairedData={{
+                      createdAt,
+                      id,
+                      pairRequest,
+                      setPairRequest,
+                      paired,
+                      schoolName,
+                      schoolType,
+                      schoolLocation,
+                      requesterName,
+                      teachingSubjects,
+                    }}
+                  />
+                )
+              }
+              return null
             })}
           </div>
         </div>
@@ -149,6 +157,8 @@ export type ListPostsProps = {
     paired: boolean | null
     id: number
     teachingSubjects: string
+    pairRequest: any[]
+    setPairRequest: Dispatch<SetStateAction<any>>
   }
 }
 
@@ -162,6 +172,8 @@ export function PostInfo(props: ListPostsProps) {
     schoolType,
     schoolLocation,
     createdAt,
+    pairRequest,
+    setPairRequest,
   } = props.pairedData
   const [updateWatcherMutation] = useMutation(updateWatcher)
   const [watcherLoading, setWatcherLoading] = useState(false)
@@ -184,6 +196,29 @@ export function PostInfo(props: ListPostsProps) {
       console.log(err)
       setWatcherLoading(false)
       setUserPaired(paired)
+    }
+  }
+
+  async function handleRejectPair(watchId: number) {
+    try {
+      setWatcherLoading(true)
+      const rejectedPair = await updateWatcherMutation({
+        id: watchId,
+        approved: false,
+        paired: false,
+      })
+
+      const newPairs = pairRequest.filter(
+        (pairRequest) => pairRequest && pairRequest.id !== rejectedPair.id
+      )
+      setPairRequest(newPairs)
+
+      setWatcherLoading(false)
+      setUserPaired(false)
+    } catch (err) {
+      console.log(err)
+      setWatcherLoading(false)
+      setUserPaired(false)
     }
   }
 
@@ -226,6 +261,17 @@ export function PostInfo(props: ListPostsProps) {
           onClick={() => handleApprovePair(id, !userPaired)}
         >
           {!userPaired ? "Approve Pair" : "Paired"}
+        </Button>
+
+        <Button
+          color="red"
+          leftIcon={
+            <NoSymbolIcon className="flex-none w-6 h-6 pr-2 text-white" aria-hidden="true" />
+          }
+          loading={watcherLoading}
+          onClick={() => handleRejectPair(id)}
+        >
+          Reject Pair
         </Button>
       </div>
     </div>

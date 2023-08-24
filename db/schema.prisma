@@ -97,6 +97,18 @@ model UserLocation {
   @@map("user_locations")
 }
 
+model Contact {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  names     String?
+  email     String?
+  phone     String?
+  inqury    String
+
+  @@map("contacts")
+}
+
 model PostLocation {
   id         Int      @id @default(autoincrement())
   createdAt  DateTime @default(now())

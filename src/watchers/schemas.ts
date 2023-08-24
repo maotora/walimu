@@ -9,6 +9,7 @@ export const UpdateWatcherSchema = z.object({
   id: z.number(),
   paired: z.boolean().optional(),
   comment: z.string().optional(),
+  approved: z.boolean().optional(),
 })
 
 export const DeleteWatcherSchema = z.object({

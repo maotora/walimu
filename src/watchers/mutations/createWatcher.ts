@@ -42,13 +42,16 @@ export default resolver.pipe(
     })
 
     if (activeWatcher) {
-      const deletedPair = await db.watcher.delete({
+      const updatedPair = await db.watcher.update({
         where: {
           id: activeWatcher.id,
         },
+        data: {
+          approved: !activeWatcher.approved,
+        },
       })
 
-      return deletedPair
+      return updatedPair
     }
 
     const watcher = await db.watcher.create({
