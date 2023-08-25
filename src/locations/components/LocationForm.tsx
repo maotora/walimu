@@ -149,14 +149,16 @@ function DistrictSelect(props: DistrictSelectProps) {
   const { handleChange, districts, setDistricts, form, regionCode } = props
 
   useEffect(() => {
-    fetch(`${ROOT_URL}/regions/${regionCode}/districts`)
-      .then(async (res) => {
-        const { districts } = await res.json()
-        setDistricts(handleEscapeLetters(districts, "districtName"))
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    if (regionCode) {
+      fetch(`${ROOT_URL}/regions/${regionCode}/districts`)
+        .then(async (res) => {
+          const { districts } = await res.json()
+          setDistricts(handleEscapeLetters(districts, "districtName"))
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }, [regionCode])
 
   return (
@@ -183,14 +185,16 @@ function WardSelect(props: WardSelectionProps) {
   const { handleChange, wards, setWards, form, districtCode } = props
 
   useEffect(() => {
-    fetch(`${ROOT_URL}/districts/${districtCode}/wards`)
-      .then(async (res) => {
-        const { wards } = await res.json()
-        setWards(handleEscapeLetters(wards, "wardName"))
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    if (districtCode) {
+      fetch(`${ROOT_URL}/districts/${districtCode}/wards`)
+        .then(async (res) => {
+          const { wards } = await res.json()
+          setWards(handleEscapeLetters(wards, "wardName"))
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }, [districtCode])
 
   return (
@@ -216,17 +220,19 @@ function PlaceSelect(props: PlaceSelectProps) {
   const { places, setPlaces, form, wardCode } = props
 
   useEffect(() => {
-    fetch(`${ROOT_URL}/wards/${wardCode}/places`)
-      .then(async (res) => {
-        const { places } = await res.json()
-        const placeNames = places && places.length ? places.map(({ placeName }) => placeName) : []
-        const uniqPlaces = new Set(placeNames)
-        const placesArr = Array.from(uniqPlaces)
-        setPlaces(placesArr)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    if (wardCode) {
+      fetch(`${ROOT_URL}/wards/${wardCode}/places`)
+        .then(async (res) => {
+          const { places } = await res.json()
+          const placeNames = places && places.length ? places.map(({ placeName }) => placeName) : []
+          const uniqPlaces = new Set(placeNames)
+          const placesArr = Array.from(uniqPlaces)
+          setPlaces(placesArr)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }, [wardCode])
 
   function parsePlaces(places: any[]) {

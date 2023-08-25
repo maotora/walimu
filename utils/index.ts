@@ -53,12 +53,19 @@ export function getTeachingSubjects(subjects: TeachingSubjectWithInclude[]): str
   return subjectsStr.join(" ")
 }
 
-export function createLocationName(locationData?: Location, withoutStreet?: boolean): string {
+export function createLocationName(
+  locationData?: Location,
+  withoutStreet?: boolean,
+  withoutRegion?: boolean
+): string {
   if (locationData) {
-    const withStreet = `${locationData.regionName} | ${locationData.districtName} | ${locationData.wardName} | ${locationData.streetName}`
-    const notWithStreet = `${locationData.regionName} | ${locationData.districtName} | ${locationData.wardName}`
+    const locationName = `
+      ${!withoutRegion ? locationData.regionName + " | " : ""}
+      ${locationData.districtName} |
+      ${locationData.wardName}
+      ${!withoutStreet ? " | " + locationData.streetName : ""}`
 
-    return withoutStreet ? notWithStreet : withStreet
+    return capitalize(locationName)
   }
 
   return "No Location"
@@ -88,6 +95,20 @@ export function schoolLevelsToString(levels: SchoolEducationLevel[]): string {
 
 export function parseDistrictCBD(district: string): string {
   return district.replace("CBD", "MJINI")
+}
+
+export function capitalize(words: string): string {
+  return words
+    .split(" ")
+    .reduce((accWords, word) => {
+      if (word !== "CBD") {
+        const capt = word.slice(0, 1).toUpperCase()
+        const rest = word.slice(1, word.length).toLowerCase()
+        return `${accWords} ${capt + rest}`
+      }
+      return `${accWords} ${word}`
+    }, "")
+    .trim()
 }
 
 type locationNamesType = "districtName" | "wardName" | "regionName"

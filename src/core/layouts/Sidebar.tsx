@@ -3,7 +3,12 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { tailwindClassNames as classNames } from "utils"
-import { BellIcon, CubeIcon, FingerPrintIcon, UserCircleIcon } from "@heroicons/react/24/outline"
+import {
+  IdentificationIcon,
+  MegaphoneIcon,
+  MapPinIcon,
+  RocketLaunchIcon,
+} from "@heroicons/react/24/outline"
 
 type dashboardNavType = {
   name: string
@@ -22,7 +27,7 @@ export default function SideBar() {
       {
         name: "General",
         href: `/dashboard`,
-        icon: UserCircleIcon,
+        icon: IdentificationIcon,
         current: !!router.pathname
           .split("/")
           .filter(
@@ -32,7 +37,7 @@ export default function SideBar() {
       {
         name: "Posts",
         href: `/dashboard/posts`,
-        icon: FingerPrintIcon,
+        icon: MegaphoneIcon,
         current: !!router.pathname
           .split("/")
           .filter(
@@ -42,7 +47,7 @@ export default function SideBar() {
       {
         name: "Locations",
         href: `/dashboard/locations`,
-        icon: BellIcon,
+        icon: MapPinIcon,
         current: !!router.pathname
           .split("/")
           .filter(
@@ -52,7 +57,7 @@ export default function SideBar() {
       {
         name: "Subscription",
         href: `/dashboard/plan`,
-        icon: CubeIcon,
+        icon: RocketLaunchIcon,
         current: !!router.pathname
           .split("/")
           .filter((name, idx, arrRef) => name && name.includes("plan") && idx === arrRef.length - 1)
@@ -73,16 +78,14 @@ export default function SideBar() {
                 <a
                   className={classNames(
                     item.current
-                      ? "bg-gray-50 text-indigo-600"
-                      : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
+                      ? "bg-gray-50 text-blue-600"
+                      : "text-gray-700 hover:text-blue-600 hover:bg-gray-50",
                     "group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold"
                   )}
                 >
                   <item.icon
                     className={classNames(
-                      item.current
-                        ? "text-indigo-600"
-                        : "text-gray-400 group-hover:text-indigo-600",
+                      item.current ? "text-blue-600" : "text-gray-400 group-hover:text-blue-600",
                       "h-6 w-6 shrink-0"
                     )}
                     aria-hidden="true"

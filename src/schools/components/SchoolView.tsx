@@ -3,6 +3,7 @@ import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
 import { useState, useEffect } from "react"
 import { ListInfoProps } from "src/users/components/UserView"
+import { createLocationName } from "utils"
 
 export default function SchoolInfo(props: { user: UserWithIncludes }) {
   const { user } = props
@@ -11,8 +12,7 @@ export default function SchoolInfo(props: { user: UserWithIncludes }) {
 
   useEffect(() => {
     const { currentSchool } = user
-    const { regionName, districtName, wardName, streetName } = currentSchool?.location || {}
-    const locationName = `${regionName} > ${districtName} > ${wardName} > ${streetName}`
+    const locationName = createLocationName(currentSchool?.location)
     if (currentSchool && currentSchool.location) {
       const infoTemplate = [
         {

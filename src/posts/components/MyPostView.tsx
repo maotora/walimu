@@ -89,7 +89,7 @@ export default function MyPostView(props: { post: MyPostViewTypeWithIncludes }) 
                 <button
                   type="button"
                   className="text-sm font-semibold text-indigo-600 leading-6 hover:text-indigo-500"
-                  onClick={() => router.push(Routes.MyLocationsPage())}
+                  onClick={() => router.push(Routes.NewPostLocationsPage({ postId: post.id }))}
                 >
                   <span aria-hidden="true">+</span> Add Locations
                 </button>
