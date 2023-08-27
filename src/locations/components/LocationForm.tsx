@@ -43,15 +43,19 @@ export function LocationForm(props: ExternalFormType) {
   const [wards, setWards] = useState([])
   const [selectedWard, setSelectedWard] = useState<number>()
   const [places, setPlaces] = useState([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    setLoading(true)
     fetch(`${ROOT_URL}/regions`, { method: "GET" })
       .then(async (res) => {
         const regions = await res.json()
         setRegions(regions)
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err)
+        setLoading(false)
       })
   }, [])
 
@@ -102,8 +106,9 @@ export function LocationForm(props: ExternalFormType) {
       <Stack spacing="md" className="mt-2">
         <Select
           data={parseLocations(regions, "regionName")}
+          defaultValue={loading ? "Loading..." : ""}
           label="School Region"
-          placeholder="Choose Region"
+          placeholder={loading ? "Loading..." : "Choose Region"}
           onSelect={handleRegionSelect}
           {...form.getInputProps("regionName")}
         />
@@ -147,16 +152,20 @@ function handleEscapeLetters(arr: any[], name: string) {
 
 function DistrictSelect(props: DistrictSelectProps) {
   const { handleChange, districts, setDistricts, form, regionCode } = props
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (regionCode) {
+      setLoading(true)
       fetch(`${ROOT_URL}/regions/${regionCode}/districts`)
         .then(async (res) => {
           const { districts } = await res.json()
           setDistricts(handleEscapeLetters(districts, "districtName"))
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err)
+          setLoading(false)
         })
     }
   }, [regionCode])
@@ -164,8 +173,9 @@ function DistrictSelect(props: DistrictSelectProps) {
   return (
     <Select
       data={parseLocations(districts, "districtName")}
+      defaultValue={loading ? "Loading..." : ""}
       label="School District"
-      placeholder="Choose District"
+      placeholder={loading ? "Loading..." : "Choose District"}
       disabled={!districts}
       onSelect={handleChange}
       {...form.getInputProps("districtName")}
@@ -183,16 +193,20 @@ type WardSelectionProps = {
 
 function WardSelect(props: WardSelectionProps) {
   const { handleChange, wards, setWards, form, districtCode } = props
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (districtCode) {
+      setLoading(true)
       fetch(`${ROOT_URL}/districts/${districtCode}/wards`)
         .then(async (res) => {
           const { wards } = await res.json()
           setWards(handleEscapeLetters(wards, "wardName"))
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err)
+          setLoading(false)
         })
     }
   }, [districtCode])
@@ -201,7 +215,8 @@ function WardSelect(props: WardSelectionProps) {
     <Select
       data={parseLocations(wards, "wardName")}
       label="School Ward"
-      placeholder="Choose Ward"
+      placeholder={loading ? "Loading..." : "Choose Ward"}
+      defaultValue={loading ? "Loading..." : ""}
       disabled={!wards}
       onSelect={handleChange}
       {...form.getInputProps("wardName")}
@@ -218,9 +233,11 @@ type PlaceSelectProps = {
 
 function PlaceSelect(props: PlaceSelectProps) {
   const { places, setPlaces, form, wardCode } = props
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (wardCode) {
+      setLoading(true)
       fetch(`${ROOT_URL}/wards/${wardCode}/places`)
         .then(async (res) => {
           const { places } = await res.json()
@@ -228,9 +245,11 @@ function PlaceSelect(props: PlaceSelectProps) {
           const uniqPlaces = new Set(placeNames)
           const placesArr = Array.from(uniqPlaces)
           setPlaces(placesArr)
+          setLoading(false)
         })
         .catch((err) => {
           console.log(err)
+          setLoading(false)
         })
     }
   }, [wardCode])
@@ -249,8 +268,9 @@ function PlaceSelect(props: PlaceSelectProps) {
     <Select
       data={parsePlaces(places)}
       disabled={!places}
+      defaultValue={loading ? "Loading..." : ""}
       label="School Place"
-      placeholder="Choose Place"
+      placeholder={loading ? "Loading..." : "Choose Place"}
       {...form.getInputProps("streetName")}
     />
   )
