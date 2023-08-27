@@ -121,6 +121,8 @@ export default function MyPostView(props: { post: MyPostViewTypeWithIncludes }) 
                   schoolLocation,
                   requesterName,
                   requesterId,
+                  requesterEmail,
+                  requesterPhone,
                   teachingSubjects,
                 ] = [
                   createPostTitle(post),
@@ -128,6 +130,8 @@ export default function MyPostView(props: { post: MyPostViewTypeWithIncludes }) 
                   createLocationName(user.currentSchool?.location),
                   user.name,
                   user.id,
+                  user.email,
+                  user.phone,
                   getTeachingSubjects(user.posts[0]?.subjects!) || "N/A",
                 ]
                 return (
@@ -137,6 +141,8 @@ export default function MyPostView(props: { post: MyPostViewTypeWithIncludes }) 
                       createdAt,
                       id,
                       pairRequest,
+                      requesterEmail,
+                      requesterPhone,
                       setPairRequest,
                       paired,
                       schoolName,
@@ -165,6 +171,8 @@ export type ListPostsProps = {
     schoolName: string
     createdAt: Date
     schoolType: string
+    requesterPhone: string
+    requesterEmail: string
     schoolLocation: string
     paired: boolean | null
     id: number
@@ -181,6 +189,8 @@ export function PostInfo(props: ListPostsProps) {
     schoolName,
     teachingSubjects,
     requesterName,
+    requesterEmail,
+    requesterPhone,
     requesterId,
     schoolType,
     schoolLocation,
@@ -194,6 +204,13 @@ export function PostInfo(props: ListPostsProps) {
   const [userDetails, setUserDetails] = useState<userDetailsType>()
 
   useEffect(() => {
+    if (!!paired) {
+      setUserDetails({
+        id: requesterId,
+        phone: requesterPhone,
+        email: requesterEmail,
+      })
+    }
     setUserPaired(!!paired)
   }, [paired])
 
