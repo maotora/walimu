@@ -1,15 +1,14 @@
 import { getTeachingSubjects, createPostTitle, createLocationName } from "utils"
-import { Button } from "@mantine/core"
+import { Button, Container } from "@mantine/core"
 import { Prisma } from "@prisma/client"
 import { useState, useEffect } from "react"
 import { PostsWithIncludes } from "./PostsList"
 import { ListInfoProps, InfoList } from "src/users/components/UserView"
 import { EyeIcon, LinkIcon } from "@heroicons/react/20/solid"
-import { invoke, useMutation } from "@blitzjs/rpc"
+import { useMutation } from "@blitzjs/rpc"
 import createViewer from "src/viewers/mutations/createViewer"
 import createWatcher from "src/watchers/mutations/createWatcher"
 import { useAuthenticatedSession } from "@blitzjs/auth"
-import getPost from "src/posts/queries/getPost"
 
 export type TeachingSubjectWithInclude = Prisma.TeachingSubjectGetPayload<{
   include: {
@@ -91,11 +90,11 @@ export default function PostViews(props: { post: PostsWithIncludes }) {
   }
 
   return (
-    <>
+    <Container className="md:w-2/3">
       <div className="px-4">
         <h2 className="text-base font-semibold text-gray-900 leading-7">Post View</h2>
         <p className="mt-1 text-sm text-gray-500 leading-6">
-          See the basic information about this teacher actively looking for a transfer.
+          Maelezo mafupi kuhusu mwalimu anayetafuta kubadilishana kituo.
         </p>
       </div>
       <div className="px-4">
@@ -136,6 +135,6 @@ export default function PostViews(props: { post: PostsWithIncludes }) {
           </div>
         </div>
       </div>
-    </>
+    </Container>
   )
 }
