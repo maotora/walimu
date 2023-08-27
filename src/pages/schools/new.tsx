@@ -14,7 +14,7 @@ const NewSchoolPage = () => {
           submitText="Create School"
           onSubmit={async (schoolId) => {
             try {
-              await router.push(Routes.ShowSchoolPage({ schoolId }))
+              await router.push(Routes.DashboardPage())
             } catch (error: any) {
               console.error(error)
               return {

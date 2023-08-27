@@ -10,7 +10,7 @@ import { UserWithIncludes } from "src/users/components/UserView"
 
 export const UserPane = () => {
   const userId = useParam("userId", "number")
-  const [user] = useQuery(getUser, { id: userId })
+  const [user] = useQuery(getUser, { id: userId! })
 
   return (
     <>

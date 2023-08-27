@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useQuery, useMutation } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
+import DevStatus from "src/core/components/DevStatus"
 
 import Layout from "src/core/layouts/Layout"
 import getPost from "src/posts/queries/getPost"
@@ -62,12 +63,8 @@ const EditPostPage = () => {
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
-        <EditPost />
+        <DevStatus />
       </Suspense>
-
-      <p>
-        <Link href={Routes.PostsPage()}>Posts</Link>
-      </p>
     </div>
   )
 }

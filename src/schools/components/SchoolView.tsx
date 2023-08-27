@@ -4,14 +4,24 @@ import { Routes } from "@blitzjs/next"
 import { useState, useEffect } from "react"
 import { ListInfoProps } from "src/users/components/UserView"
 import { createLocationName, formatItems } from "utils"
+import { Prisma } from "@prisma/client"
 
-export default function SchoolInfo(props: { user: UserWithIncludes }) {
-  const { user } = props
+export type SchoolWithIncludes = Prisma.SchoolGetPayload<{
+  include: {
+    location: true
+  }
+}>
+
+export default function SchoolInfo(props: {
+  user?: UserWithIncludes
+  school?: SchoolWithIncludes
+}) {
+  const { user, school } = props
   const router = useRouter()
   const [schoolInfo, setSchoolInfo] = useState<ListInfoProps[]>([])
 
   useEffect(() => {
-    const { currentSchool } = user
+    const currentSchool = user?.currentSchool || school
     const locationName = createLocationName(currentSchool?.location)
     if (currentSchool && currentSchool.location) {
       const infoTemplate = [

@@ -6,6 +6,7 @@ import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
 import Layout from "src/core/layouts/Layout"
 import getUsers from "src/users/queries/getUsers"
+import DevStatus from "src/core/components/DevStatus"
 
 const ITEMS_PER_PAGE = 100
 
@@ -49,7 +50,7 @@ const UsersPage = () => {
       </Head>
 
       <Suspense fallback={<div>Loading...</div>}>
-        <UsersList />
+        <DevStatus />
       </Suspense>
     </Layout>
   )

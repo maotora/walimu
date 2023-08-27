@@ -7,6 +7,7 @@ import { useRouter } from "next/router"
 import Layout from "src/core/layouts/Layout"
 import getLocations from "src/locations/queries/getLocations"
 import { createLocationName } from "utils"
+import DevStatus from "src/core/components/DevStatus"
 
 const ITEMS_PER_PAGE = 100
 
@@ -51,11 +52,9 @@ const LocationsPage = () => {
         <title>Locations</title>
       </Head>
 
-      <div>
-        <Suspense fallback={<div>Loading...</div>}>
-          <LocationsList />
-        </Suspense>
-      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <DevStatus />
+      </Suspense>
     </Layout>
   )
 }

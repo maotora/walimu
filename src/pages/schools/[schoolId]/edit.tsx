@@ -7,6 +7,7 @@ import { useQuery, useMutation } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
 import Layout from "src/core/layouts/Layout"
 import { UpdateSchoolSchema } from "src/schools/schemas"
+import { SchoolWithIncludes } from "src/schools/components/SchoolView"
 import getSchool from "src/schools/queries/getSchool"
 import updateSchool from "src/schools/mutations/updateSchool"
 import SchoolForm from "src/schools/components/SchoolForm"
@@ -42,7 +43,7 @@ export const EditSchool = () => {
                   id: school.id,
                   ...values,
                 })
-                await setQueryData(updated)
+                await setQueryData(updated as SchoolWithIncludes)
                 await router.push(Routes.ShowSchoolPage({ schoolId: updated.id }))
               } catch (error: any) {
                 console.error(error)

@@ -1,10 +1,10 @@
 import { Suspense } from "react"
 import { Routes } from "@blitzjs/next"
 import Head from "next/head"
-import Link from "next/link"
 import { useRouter } from "next/router"
 import { useQuery, useMutation } from "@blitzjs/rpc"
 import { useParam } from "@blitzjs/next"
+import DevStatus from "src/core/components/DevStatus"
 
 import Layout from "src/core/layouts/Layout"
 import { UpdateUserSchema } from "src/users/schemas"
@@ -17,7 +17,7 @@ export const EditUser = () => {
   const userId = useParam("userId", "number")
   const [user, { setQueryData }] = useQuery(
     getUser,
-    { id: userId },
+    { id: userId! },
     {
       // This ensures the query never refreshes and overwrites the form data while the user is editing.
       staleTime: Infinity,
@@ -64,12 +64,8 @@ const EditUserPage = () => {
   return (
     <div>
       <Suspense fallback={<div>Loading...</div>}>
-        <EditUser />
+        <DevStatus />
       </Suspense>
-
-      <p>
-        <Link href={Routes.UsersPage()}>Users</Link>
-      </p>
     </div>
   )
 }

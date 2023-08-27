@@ -6,6 +6,7 @@ import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
 import Layout from "src/core/layouts/Layout"
 import getSchools from "src/schools/queries/getSchools"
+import DevStatus from "src/core/components/DevStatus"
 
 const ITEMS_PER_PAGE = 100
 
@@ -48,15 +49,9 @@ const SchoolsPage = () => {
         <title>Schools</title>
       </Head>
 
-      <div>
-        <p>
-          <Link href={Routes.NewSchoolPage()}>Create School</Link>
-        </p>
-
-        <Suspense fallback={<div>Loading...</div>}>
-          <SchoolsList />
-        </Suspense>
-      </div>
+      <Suspense fallback="Loading...">
+        <DevStatus />
+      </Suspense>
     </Layout>
   )
 }
