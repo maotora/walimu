@@ -6,7 +6,8 @@ import { Prisma } from "@prisma/client"
 import { useState, useEffect, Dispatch, SetStateAction } from "react"
 import { Routes } from "@blitzjs/next"
 import { ListInfoProps, InfoList } from "src/users/components/UserView"
-import { useMutation } from "@blitzjs/rpc"
+import { useMutation, invoke } from "@blitzjs/rpc"
+import getUserDetails from "src/users/queries/getUserDetails"
 import updateWatcher from "src/watchers/mutations/updateWatcher"
 import { MyPostViewTypeWithIncludes } from "src/pages/dashboard/posts"
 
@@ -15,6 +16,12 @@ export type TeachingSubjectWithInclude = Prisma.TeachingSubjectGetPayload<{
     subject: true
   }
 }>
+
+type userDetailsType = {
+  id: number
+  phone: string
+  email: string
+}
 
 export default function MyPostView(props: { post: MyPostViewTypeWithIncludes }) {
   const { post } = props
@@ -26,6 +33,7 @@ export default function MyPostView(props: { post: MyPostViewTypeWithIncludes }) 
   const [viewsCount, setViewsCount] = useState(0)
   const [actualViews, setActualViews] = useState(0)
   const [pairRequest, setPairRequest] = useState<any[]>([])
+
   useEffect(() => {
     const actualViewsCount = post.postViewers.reduce((acc, { count }) => {
       return (acc += count)
@@ -107,11 +115,19 @@ export default function MyPostView(props: { post: MyPostViewTypeWithIncludes }) 
           <div className="text-gray-900 font-base">
             {pairRequest.map(({ createdAt, id, paired, user, approved }) => {
               if (approved) {
-                const [schoolName, schoolType, schoolLocation, requesterName, teachingSubjects] = [
+                const [
+                  schoolName,
+                  schoolType,
+                  schoolLocation,
+                  requesterName,
+                  requesterId,
+                  teachingSubjects,
+                ] = [
                   createPostTitle(post),
                   formatItems(user.currentSchool?.type || "N/A"),
                   createLocationName(user.currentSchool?.location),
                   user.name,
+                  user.id,
                   getTeachingSubjects(user.posts[0]?.subjects!) || "N/A",
                 ]
                 return (
@@ -127,6 +143,7 @@ export default function MyPostView(props: { post: MyPostViewTypeWithIncludes }) 
                       schoolType,
                       schoolLocation,
                       requesterName,
+                      requesterId,
                       teachingSubjects,
                     }}
                   />
@@ -144,6 +161,7 @@ export default function MyPostView(props: { post: MyPostViewTypeWithIncludes }) 
 export type ListPostsProps = {
   pairedData: {
     requesterName: string
+    requesterId: number
     schoolName: string
     createdAt: Date
     schoolType: string
@@ -163,6 +181,7 @@ export function PostInfo(props: ListPostsProps) {
     schoolName,
     teachingSubjects,
     requesterName,
+    requesterId,
     schoolType,
     schoolLocation,
     createdAt,
@@ -172,18 +191,21 @@ export function PostInfo(props: ListPostsProps) {
   const [updateWatcherMutation] = useMutation(updateWatcher)
   const [watcherLoading, setWatcherLoading] = useState(false)
   const [userPaired, setUserPaired] = useState(false)
+  const [userDetails, setUserDetails] = useState<userDetailsType>()
 
   useEffect(() => {
     setUserPaired(!!paired)
   }, [paired])
 
-  async function handleApprovePair(watchId: number, paired: boolean) {
+  async function handleApprovePair(watchId: number, paired: boolean, userId: number) {
     try {
       setWatcherLoading(true)
       await updateWatcherMutation({
         id: watchId,
         paired,
       })
+      const userData = await invoke(getUserDetails, { id: userId })
+      setUserDetails(userData)
       setWatcherLoading(false)
       setUserPaired(paired)
     } catch (err) {
@@ -247,12 +269,25 @@ export function PostInfo(props: ListPostsProps) {
         <dt className="w-1/3 font-medium text-gray-900">Teaching Subjects</dt>
         <dd className="w-2/3 text-gray-900 font-base">{teachingSubjects}</dd>
       </div>
+      {userDetails && userPaired && (
+        <>
+          <div className="flex py-6 border-t border-gray-200 gap-x-6 ">
+            <dt className="w-1/3 font-medium text-gray-900">Email</dt>
+            <dd className="w-2/3 text-gray-900 font-base">{userDetails.email}</dd>
+          </div>
+
+          <div className="flex py-6 border-t border-gray-200 gap-x-6 ">
+            <dt className="w-1/3 font-medium text-gray-900">Phone Number</dt>
+            <dd className="w-2/3 text-gray-900 font-base">{userDetails.phone}</dd>
+          </div>
+        </>
+      )}
       <div className="flex py-6 border-t border-gray-200 gap-x-6 ">
         <Button
           color={userPaired ? "gray" : ""}
           leftIcon={<LinkIcon className="flex-none w-6 h-6 pr-2 text-white" aria-hidden="true" />}
           loading={watcherLoading}
-          onClick={() => handleApprovePair(id, !userPaired)}
+          onClick={() => handleApprovePair(id, !userPaired, requesterId)}
         >
           {!userPaired ? "Approve Pair" : "Paired"}
         </Button>
@@ -263,6 +298,7 @@ export function PostInfo(props: ListPostsProps) {
             <NoSymbolIcon className="flex-none w-6 h-6 pr-2 text-white" aria-hidden="true" />
           }
           loading={watcherLoading}
+          disabled={userPaired}
           onClick={() => handleRejectPair(id)}
         >
           Reject Pair

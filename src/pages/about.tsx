@@ -1,10 +1,4 @@
-import {
-  CloudArrowUpIcon,
-  GlobeAltIcon,
-  ArrowUpCircleIcon,
-  LockClosedIcon,
-  ServerIcon,
-} from "@heroicons/react/20/solid"
+import { GlobeAltIcon, ArrowUpCircleIcon, LockClosedIcon } from "@heroicons/react/20/solid"
 import Layout from "src/core/layouts/Layout"
 
 export default function AboutPage() {
@@ -26,7 +20,7 @@ export default function AboutPage() {
         <div className="flex flex-col w-full px-6 mx-auto md:flex-row max-w-7xl lg:px-8">
           <div className="w-full md:w-3/5">
             <div className="max-w-2xl mx-auto lg:mx-0">
-              <p className="text-lg font-semibold tracking-tight text-indigo-600 leading-8">
+              <p className="text-lg font-semibold tracking-tight text-blue-600 leading-8">
                 Kupeleka Haraka
               </p>
               <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -51,7 +45,7 @@ export default function AboutPage() {
               >
                 <li className="flex gap-x-3">
                   <ArrowUpCircleIcon
-                    className="flex-none w-5 h-5 mt-1 text-indigo-600"
+                    className="flex-none w-5 h-5 mt-1 text-blue-600"
                     aria-hidden="true"
                   />
                   <span className="text-base md:text-lg lg:text-base">
@@ -62,7 +56,7 @@ export default function AboutPage() {
                 </li>
                 <li className="flex gap-x-3">
                   <LockClosedIcon
-                    className="flex-none w-5 h-5 mt-1 text-indigo-600"
+                    className="flex-none w-5 h-5 mt-1 text-blue-600"
                     aria-hidden="true"
                   />
                   <span className="text-base md:text-lg lg:text-base">
@@ -73,7 +67,7 @@ export default function AboutPage() {
                 </li>
                 <li className="flex gap-x-3">
                   <GlobeAltIcon
-                    className="flex-none w-5 h-5 mt-1 text-indigo-600"
+                    className="flex-none w-5 h-5 mt-1 text-blue-600"
                     aria-hidden="true"
                   />
                   <span className="text-base md:text-lg lg:text-base">
@@ -116,7 +110,7 @@ export default function AboutPage() {
                   fill="url(#e87443c8-56e4-4c20-9111-55b82fa704e3)"
                 />
               </svg>
-              <figure className="pl-8 border-l border-indigo-600">
+              <figure className="pl-8 border-l border-blue-600">
                 <blockquote className="text-xl font-semibold tracking-tight text-gray-900 leading-8">
                   <p>
                     “The power of education extends beyond the development of skills we need for

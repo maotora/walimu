@@ -37,11 +37,11 @@ export default function UserView(props: { user: UserWithIncludes }) {
       },
       {
         label: "Email Address",
-        value: email,
+        value: email || "Tunalinda taarifa za mwalimu, mpaka zitakapo hitajika.",
       },
       {
         label: "Phone Number",
-        value: phone,
+        value: phone || "Tunalinda taarifa za mwalimu, mpaka zitakapo hitajika.",
       },
       {
         label: "Gender",
@@ -54,7 +54,7 @@ export default function UserView(props: { user: UserWithIncludes }) {
     <div>
       <h2 className="text-base font-semibold text-gray-900 leading-7">Profile</h2>
       <p className="mt-1 text-sm text-gray-500 leading-6">
-        This is your basic information which can be publicily visible.
+        Taarifa za mwalimu aliyejiunga nasi, baadhi zitaonekana itakapo hitajika.
       </p>
 
       <dl className="mt-6 text-sm border-t border-gray-200 space-y-6 divide-y divide-gray-100 leading-6">

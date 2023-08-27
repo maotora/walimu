@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { Routes } from "@blitzjs/next"
 import { useState, useEffect } from "react"
 import { ListInfoProps } from "src/users/components/UserView"
-import { createLocationName } from "utils"
+import { createLocationName, formatItems } from "utils"
 
 export default function SchoolInfo(props: { user: UserWithIncludes }) {
   const { user } = props
@@ -21,7 +21,7 @@ export default function SchoolInfo(props: { user: UserWithIncludes }) {
         },
         {
           label: "School Type",
-          value: currentSchool.type,
+          value: formatItems(currentSchool.type),
         },
         {
           label: "School Location",
@@ -36,7 +36,7 @@ export default function SchoolInfo(props: { user: UserWithIncludes }) {
     <div>
       <h2 className="text-base font-semibold text-gray-900 leading-7">School Information</h2>
       <p className="mt-1 text-sm text-gray-500 leading-6">
-        Your current school information some may be publicily visible.
+        Taarifa za shule ya mwalimu, zitaonekana kwenye posts zake.
       </p>
 
       {schoolInfo.length > 0 ? (
