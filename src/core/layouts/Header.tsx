@@ -26,11 +26,11 @@ export default function Header() {
         className="flex items-center justify-between p-6 mx-auto max-w-7xl lg:px-8"
         aria-label="Global"
       >
-        <Link href="/" legacyBehavior>
-          <a className="-m-1.5 p-1.5">
-            <span className="sr-only">Kuhama Walimu</span>
-            <Image height={25} width={25} className="w-auto h-8" src="/logo.png" alt="" />
-          </a>
+        <Link href="/" className="-m-1.5 p-1.5">
+          <span className="sr-only">Kuhama Walimu</span>
+          <picture className="w-auto h-8">
+            <Image width={200} height={40} src="/logo.png" alt="" />
+          </picture>
         </Link>
         <div className="flex lg:hidden">
           <button
@@ -60,7 +60,7 @@ export default function Header() {
             <Link href="/" legacyBehavior>
               <a className="-m-1.5 p-1.5">
                 <span className="sr-only">Kuhama Walimu</span>
-                <Image height={24} width={24} className="w-auto h-8" src="/logo.png" alt="" />
+                <Image height={60} width={60} src="/logo_mini.png" alt="" />
               </a>
             </Link>
             <button
