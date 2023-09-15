@@ -31,7 +31,7 @@ function parseLocations(locations: any[], name: string) {
 
 const ROOT_URL =
   process.env.NODE_ENV === "production"
-    ? "https://locations.webongo.services"
+    ? "https://locations-api.onrender.com"
     : "http://192.168.0.105:3000"
 
 export function LocationForm(props: ExternalFormType) {
