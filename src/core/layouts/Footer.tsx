@@ -61,7 +61,7 @@ const navigation = {
 export default function Footer() {
   const now = new Date()
   const year = now.getFullYear()
-  const msg = `${year} MbuyuFikra Organization. All rights reserved.`
+  const msg = `${year} MbuyuFikra Foundation. All rights reserved.`
 
   return (
     <footer className="bg-gray-100">
